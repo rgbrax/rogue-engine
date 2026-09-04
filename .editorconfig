@@ -1,0 +1,31 @@
+# .editorconfig - house defaults. See StyleGuide.md.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = tab
+indent_size = 4
+
+[*.{c,cc,cpp,cxx,h,hh,hpp,hxx,inl}]
+indent_style = tab
+indent_size = 4
+
+[*.cs]
+indent_style = space
+indent_size = 4
+
+[*.{json,yml,yaml,xml,vcxproj,props,targets}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{bat,cmd}]
+end_of_line = crlf
+
+[*.sh]
+end_of_line = lf
