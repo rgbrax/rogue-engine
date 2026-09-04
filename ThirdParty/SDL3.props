@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SDL3 dependency, as a property sheet.
+
+  Import this into any project that genuinely needs SDL3, and DO NOT import it
+  into Engine. Engine is the renderer-free core (milestones M0 to M4) and the
+  whole point of that rule is that adding a graphics dependency has to be a
+  deliberate act you can see in a diff. Which projects import this file IS the
+  dependency boundary, and it is auditable with one grep.
+
+  Adds: include path, x64 lib path, SDL3.lib, and a post-build copy of SDL3.dll
+  next to the exe. x64 only - this project is x64 only by design.
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Sdl3Dir>$(MSBuildThisFileDirectory)SDL3\</Sdl3Dir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(Sdl3Dir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(Sdl3Dir)lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /D /Y "$(Sdl3Dir)lib\x64\SDL3.dll" "$(OutDir)"</Command>
+      <Message>Copying SDL3.dll next to the exe</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+</Project>

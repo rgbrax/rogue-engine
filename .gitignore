@@ -68,3 +68,36 @@ vcpkg_installed/
 Testing/
 .cache/
 /Docs
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+*.aps
+*.ncb
+*.sdf
+*.opensdf
+
+# MSBuild output
+[Xx]64/
+[Xx]86/
+[Ww]in32/
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+ipch/
+*.ipch
+
+# ThirdParty is vendored and MUST be committed - override the binary rules above.
+# The directory negation has to come first: git cannot re-include a file whose
+# parent directory is excluded, and [Xx]64/ above matches SDL3's lib/x64 folder.
+!ThirdParty/**/[Xx]64/
+!ThirdParty/**/[Xx]86/
+!ThirdParty/**/*.lib
+!ThirdParty/**/*.dll
+!ThirdParty/**/*.a
+!ThirdParty/**/*.so
+!ThirdParty/**/*.pdb
