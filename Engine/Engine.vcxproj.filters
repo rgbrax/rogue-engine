@@ -1,9 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Core\Ids.h" />
+    <ClInclude Include="Core\DefType.h" />
+    <ClInclude Include="Core\Schema.h" />
+    <ClInclude Include="Data\Def.h" />
+    <ClInclude Include="Data\ItemDef.h" />
+    <ClInclude Include="Data\WeaponDef.h" />
+    <ClInclude Include="Data\ArmorDef.h" />
+    <ClInclude Include="Data\ConsumableDef.h" />
+    <ClInclude Include="Data\MiscItemDef.h" />
+    <ClInclude Include="Data\ActorDef.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Core\DefType.cpp" />
+    <ClCompile Include="Core\Schema.cpp" />
+    <ClCompile Include="Data\Def.cpp" />
+    <ClCompile Include="Data\ItemDef.cpp" />
+    <ClCompile Include="Data\WeaponDef.cpp" />
+    <ClCompile Include="Data\ArmorDef.cpp" />
+    <ClCompile Include="Data\ConsumableDef.cpp" />
+    <ClCompile Include="Data\MiscItemDef.cpp" />
+    <ClCompile Include="Data\ActorDef.cpp" />
   </ItemGroup>
 </Project>

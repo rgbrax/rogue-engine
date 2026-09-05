@@ -10,12 +10,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Engine.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Engine.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -88,6 +82,33 @@
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Data\ActorDef.h" />
+    <ClInclude Include="Data\ConsumableDef.h" />
+    <ClInclude Include="Data\ArmorDef.h" />
+    <ClInclude Include="Core\Ids.h" />
+    <ClInclude Include="Core\DefType.h" />
+    <ClInclude Include="Core\Schema.h" />
+    <ClInclude Include="Data\Def.h" />
+    <ClInclude Include="Data\ItemDef.h" />
+    <ClInclude Include="Data\WeaponDef.h" />
+    <ClInclude Include="Data\MiscItemDef.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Data\ActorDef.cpp" />
+    <ClCompile Include="Data\ConsumableDef.cpp" />
+    <ClCompile Include="Data\ArmorDef.cpp" />
+    <ClCompile Include="Core\Schema.cpp" />
+    <ClCompile Include="Data\Def.cpp" />
+    <ClCompile Include="Data\ItemDef.cpp" />
+    <ClCompile Include="Data\WeaponDef.cpp" />
+    <ClCompile Include="Data\MiscItemDef.cpp" />
+  </ItemGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
