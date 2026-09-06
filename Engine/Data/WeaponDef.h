@@ -20,7 +20,6 @@ namespace rogue
 		float damage = 0.0f;
 		float reach = 1.0f;
 		DamageType damageType = DamageType::Physical;
-
 		static const Schema& StaticSchema();
 		const Schema& GetSchema() const override
 		{

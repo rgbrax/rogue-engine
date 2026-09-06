@@ -10,15 +10,13 @@
 
 namespace rogue
 {
-	//type of fields a Schema can contain
-	//#tbd: Array and SubRecord?
 	enum class FieldType
 	{
 		Bool,
 		Int,
 		Float,
 		String,
-		Ref, //reference to definition
+		Ref,
 		Enum
 	};
 
@@ -45,7 +43,6 @@ namespace rogue
 			static_assert(AlwaysFalse<M>, "Schema: unsupported field type");
 	}
 
-	//described field
 	struct FieldDesc
 	{
 		std::string name;
@@ -73,7 +70,6 @@ namespace rogue
 		std::vector<FieldDesc> m_fields;
 	};
 
-	//schema creation
 	template <typename T>
 	class SchemaBuilder
 	{

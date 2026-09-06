@@ -8,11 +8,11 @@ namespace rogue
 		Static,
 		ScalePlayerMultiply, //#tbd: please rename this good lord; i.e. 1.1x the player's level; use this and set to 1.0 for player's level
 		ScalePlayerMinMax, //same as above, but with a min and max; i.e. a dragon's min level would be 30, a skeleton's max level would be 5
-		RandomMinMax, //frick it, we ball		
+		RandomMinMax, //frick it, we ball
 	};
 
 	//#tbd: move to progression or ruleset; this will vary by game; this specific example is more elder-scrolls like; prob wouldn't be an enum
-	enum class ActorClass 
+	enum class ActorClass
 	{
 		Warrior,
 		Rogue,

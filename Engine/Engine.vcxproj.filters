@@ -11,9 +11,10 @@
     <ClInclude Include="Data\ConsumableDef.h" />
     <ClInclude Include="Data\MiscItemDef.h" />
     <ClInclude Include="Data\ActorDef.h" />
+    <ClInclude Include="Data\DefTable.h" />
+    <ClInclude Include="Data\DefRegistry.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\DefType.cpp" />
     <ClCompile Include="Core\Schema.cpp" />
     <ClCompile Include="Data\Def.cpp" />
     <ClCompile Include="Data\ItemDef.cpp" />
@@ -22,5 +23,7 @@
     <ClCompile Include="Data\ConsumableDef.cpp" />
     <ClCompile Include="Data\MiscItemDef.cpp" />
     <ClCompile Include="Data\ActorDef.cpp" />
+    <ClCompile Include="Data\DefTable.cpp" />
+    <ClCompile Include="Data\DefRegistry.cpp" />
   </ItemGroup>
 </Project>

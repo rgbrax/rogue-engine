@@ -4,7 +4,7 @@
 
 namespace rogue
 {
-	//authorable def types / kinds the engine can construct 
+	//authorable def types / kinds the engine can construct
 	enum class DefType : uint16_t
 	{
 		Invalid = 0,

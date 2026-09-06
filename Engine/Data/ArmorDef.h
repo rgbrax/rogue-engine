@@ -18,7 +18,7 @@ namespace rogue
 		ArmorType type = ArmorType::Clothes;
 
 		static const Schema& StaticSchema();
-		const Schema& GetSchema( ) const override
+		const Schema& GetSchema() const override
 		{
 			return StaticSchema();
 		}

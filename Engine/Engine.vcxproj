@@ -91,6 +91,8 @@
     <ClInclude Include="Core\DefType.h" />
     <ClInclude Include="Core\Schema.h" />
     <ClInclude Include="Data\Def.h" />
+    <ClInclude Include="Data\DefRegistry.h" />
+    <ClInclude Include="Data\DefTable.h" />
     <ClInclude Include="Data\ItemDef.h" />
     <ClInclude Include="Data\WeaponDef.h" />
     <ClInclude Include="Data\MiscItemDef.h" />
@@ -101,6 +103,8 @@
     <ClCompile Include="Data\ArmorDef.cpp" />
     <ClCompile Include="Core\Schema.cpp" />
     <ClCompile Include="Data\Def.cpp" />
+    <ClCompile Include="Data\DefRegistry.cpp" />
+    <ClCompile Include="Data\DefTable.cpp" />
     <ClCompile Include="Data\ItemDef.cpp" />
     <ClCompile Include="Data\WeaponDef.cpp" />
     <ClCompile Include="Data\MiscItemDef.cpp" />

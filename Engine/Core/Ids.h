@@ -11,6 +11,7 @@ namespace rogue
 		{
 			return value != 0;
 		}
+		constexpr auto operator<=>(const DefId&) const = default;
 	};
 
 	struct ModuleId
@@ -20,6 +21,7 @@ namespace rogue
 		{
 			return value != 0;
 		}
+		constexpr auto operator<=>(const ModuleId&) const = default;
 	};
 }
 

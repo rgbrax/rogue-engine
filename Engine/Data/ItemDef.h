@@ -10,7 +10,6 @@ namespace rogue
 		std::string displayName = "";
 		float weight = 0.0f;
 		int32_t value = 0;
-
 		static const Schema& StaticSchema();
 	};
 }
