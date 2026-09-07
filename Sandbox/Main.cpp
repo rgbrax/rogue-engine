@@ -1,69 +1,51 @@
 #include "Data/ArmorDef.h"
+#include "Data/DefRegistry.h"
 #include "Data/DefTable.h"
+#include "Data/TextSerializer.h"
 #include "Data/WeaponDef.h"
 
 #include <cstdio>
-#include <memory>
+#include <fstream>
+#include <sstream>
+
+#include <Windows.h>
 
 using namespace rogue;
 
-void PrintDef(const Def& def)
+static std::string ReadFile(const char* path)
 {
-	std::vector<const FieldDesc*> fields;
-	def.GetSchema().CollectFields(fields);
-
-	printf("Definition #%llu) EditorId: %s, Type: %s\n", def.id.value, def.editorId.c_str(), def.GetSchema().TypeName().c_str());
-	printf("Fields:\n");
-
-	for (const FieldDesc* field : fields)
-	{
-		const Value v = field->get(&def);
-		std::printf("\t%-14s = ", field->name.c_str());
-
-		switch (field->type)
-		{
-		case FieldType::Bool:
-			std::printf("%s", std::get<bool>(v) ? "true" : "false");
-			break;
-		case FieldType::Int:
-		case FieldType::Enum:
-			std::printf("%lld", (long long)std::get<int64_t>(v));
-			break;
-		case FieldType::Float:
-			std::printf("%g", std::get<double>(v));
-			break;
-		case FieldType::String:
-			std::printf("\"%s\"", std::get<std::string>(v).c_str());
-			break;
-		case FieldType::Ref:
-			std::printf("DefId(%llu)", (unsigned long long)std::get<DefId>(v).value);
-			break;
-		}
-		std::printf("\n");
-	}
+	std::ifstream in(path, std::ios::binary);
+	std::ostringstream ss;
+	ss << in.rdbuf();
+	return ss.str();
 }
 
-void LoadTestDefs(DefTable& table)
+static void WriteFile(const char* path, const std::string& text)
 {
+	std::ofstream out(path, std::ios::binary);
+	out << text;
+}
+
+//test hardcoded content
+static void BuildContent(DefTable& table)
+{
+	
+}
+
+void CreateSampleModule()
+{
+	DefTable table;
+
+	//sample defs
 	auto iron = std::make_unique<WeaponDef>();
 	iron->editorId = "weapon_iron_sword";
 	iron->type = DefType::Weapon;
 	iron->displayName = "Iron Sword";
 	iron->weight = 5.0f;
 	iron->value = 25;
-	iron->damage = 7.0f;
+	iron->damage = 10.0f;
 	iron->reach = 1.2f;
 	table.Add(std::move(iron));
-
-	auto steel = std::make_unique<WeaponDef>();
-	steel->editorId = "weapon_steel_sword";
-	steel->type = DefType::Weapon;
-	steel->displayName = "Steel Sword";
-	steel->weight = 6.0f;
-	steel->value = 60;
-	steel->damage = 12.0f;
-	steel->reach = 1.2f;
-	table.Add(std::move(steel));
 
 	auto helmet = std::make_unique<ArmorDef>();
 	helmet->editorId = "armor_iron_helmet";
@@ -72,28 +54,58 @@ void LoadTestDefs(DefTable& table)
 	helmet->weight = 8.0f;
 	helmet->value = 40;
 	helmet->armorRating = 12.0f;
-	helmet->type = ArmorType::HeavyArmor;
+	helmet->armorType = ArmorType::HeavyArmor;
 	table.Add(std::move(helmet));
+
+	std::string fileData = TextSerializer::WriteAll(table);
+	WriteFile("base.roguemod", fileData);
 }
 
 int main()
 {
-	DefTable table;
-	LoadTestDefs(table);
+	printf("==RogueEngine==\n");
+	printf("DefRegistry: DefType Count: %i\n", (int)DefRegistry::All().size());
+	for (const DefTypeInfo& info : DefRegistry::All())
+		printf("->%s\n", info.name.data());
 
-	std::printf("loaded %i defs\n\n", (int)table.Count());
+	//CreateSampleModule();
+	//printf("Sample file created!\n");
 
-	for (const std::unique_ptr<Def>& def : table.All())
+	//read deftable
+	DefTable loaded;
+	std::string error;
+	if (!TextSerializer::ReadAll(ReadFile("base.roguemod"), loaded, &error))
 	{
-		PrintDef(*def);
-		std::printf("\n");
+		std::printf("read failed: %s\n", error.c_str());
+		return 1;
 	}
 
-	if (const Def* def = table.Find("weapon_steel_sword"))
-		std::printf("found by name: %s\n", def->editorId.c_str());
+	printf("File loaded!\n");
+	printf("-> loaded %i defs\n", (int)loaded.Count());
 
-	if (const Def* def = table.Get(DefId{1}))
-		std::printf("found by id 1: %s\n", def->editorId.c_str());
+	//list each def
+	for ( const auto &x : loaded.All( ) )
+	{
+		printf("DefId: %llu\n", x->id.value);
+		printf("->Def EditorId: %s\n", x->editorId.c_str());
+
+		if ( x->type == DefType::Weapon )
+		{
+			printf("->DefType : Weapon");
+			WeaponDef* weapon = static_cast<WeaponDef*>(x.get());
+			printf("->->Damage: %f\n", weapon->damage);
+			printf("->->Reach: %f\n", weapon->reach);
+		}
+	}
+
+	//confirm objects
+	if (const Def* sword = loaded.Find("weapon_iron_sword"))
+		printf("\nloaded '%s' as a %s\n",
+			sword->editorId.c_str(), sword->GetSchema().TypeName().c_str());
+
+	printf("END");
+	while (true)
+		Sleep(1000);
 
 	return 0;
 }

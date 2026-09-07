@@ -93,6 +93,7 @@
     <ClInclude Include="Data\Def.h" />
     <ClInclude Include="Data\DefRegistry.h" />
     <ClInclude Include="Data\DefTable.h" />
+    <ClInclude Include="Data\TextSerializer.h" />
     <ClInclude Include="Data\ItemDef.h" />
     <ClInclude Include="Data\WeaponDef.h" />
     <ClInclude Include="Data\MiscItemDef.h" />
@@ -105,6 +106,7 @@
     <ClCompile Include="Data\Def.cpp" />
     <ClCompile Include="Data\DefRegistry.cpp" />
     <ClCompile Include="Data\DefTable.cpp" />
+    <ClCompile Include="Data\TextSerializer.cpp" />
     <ClCompile Include="Data\ItemDef.cpp" />
     <ClCompile Include="Data\WeaponDef.cpp" />
     <ClCompile Include="Data\MiscItemDef.cpp" />

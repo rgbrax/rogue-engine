@@ -15,7 +15,7 @@ namespace rogue
 	{
 	public:
 		float armorRating = 0.0f;
-		ArmorType type = ArmorType::Clothes;
+		ArmorType armorType = ArmorType::Clothes;
 
 		static const Schema& StaticSchema();
 		const Schema& GetSchema() const override
