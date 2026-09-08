@@ -7,7 +7,7 @@ namespace rogue
 		static const Schema schema = SchemaBuilder<ConsumableDef>("ConsumableDef", &ItemDef::StaticSchema())
 										 .Field("effectAmount", &ConsumableDef::effectAmount)
 										 .Field("effectDuration", &ConsumableDef::effectDuration)
-										 .Field("consumableType", &ConsumableDef::consumableType)
+										 .EnumField("consumableType", &ConsumableDef::consumableType, ConsumableTypeNames)
 										 .Build();
 
 		return schema;

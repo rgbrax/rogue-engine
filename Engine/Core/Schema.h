@@ -2,6 +2,7 @@
 #include "Core/Ids.h"
 #include <cstdint>
 #include <functional>
+#include <span>
 #include <string>
 #include <string_view>
 #include <type_traits>
@@ -12,6 +13,7 @@ namespace rogue
 {
 	enum class FieldType
 	{
+		None,
 		Bool,
 		Int,
 		Float,
@@ -21,8 +23,6 @@ namespace rogue
 	};
 
 	using Value = std::variant<bool, int64_t, double, std::string, DefId>;
-	template <typename>
-	inline constexpr bool AlwaysFalse = false;
 
 	template <typename M>
 	constexpr FieldType FieldTypeOf()
@@ -40,13 +40,33 @@ namespace rogue
 		else if constexpr (std::is_same_v<M, DefId>)
 			return FieldType::Ref;
 		else
-			static_assert(AlwaysFalse<M>, "Schema: unsupported field type");
+			return FieldType::None;
 	}
+
+	//name and value pairs for enum fields
+	struct EnumEntry
+	{
+		std::string_view name;
+		int64_t value = 0;
+
+		constexpr EnumEntry(std::string_view entryName, int64_t entryValue)
+			: name(entryName), value(entryValue)
+		{
+		}
+
+		template <typename E>
+			requires std::is_enum_v<E>
+		constexpr EnumEntry(std::string_view entryName, E entryValue)
+			: name(entryName), value(static_cast<int64_t>(entryValue))
+		{
+		}
+	};
 
 	struct FieldDesc
 	{
 		std::string name;
 		FieldType type = FieldType::Int;
+		std::span<const EnumEntry> enumValues;
 		std::function<Value(const void*)> get;
 		std::function<void(void*, const Value&)> set;
 	};
@@ -82,6 +102,28 @@ namespace rogue
 		template <typename M>
 		SchemaBuilder& Field(const char* name, M T::* member)
 		{
+			m_schema.AddField(MakeField(name, member));
+			return *this;
+		}
+
+		template <typename M, size_t N>
+		SchemaBuilder& EnumField(const char* name, M T::* member, const EnumEntry (&names)[N])
+		{
+			FieldDesc desc = MakeField(name, member);
+			desc.enumValues = std::span<const EnumEntry>(names, N);
+			m_schema.AddField(std::move(desc));
+			return *this;
+		}
+
+		Schema Build()
+		{
+			return std::move(m_schema);
+		}
+
+	private:
+		template <typename M>
+		FieldDesc MakeField(const char* name, M T::* member)
+		{
 			FieldDesc desc;
 			desc.name = name;
 			desc.type = FieldTypeOf<M>();
@@ -114,16 +156,9 @@ namespace rogue
 					v = std::get<M>(in);
 			};
 
-			m_schema.AddField(std::move(desc));
-			return *this;
+			return desc;
 		}
 
-		Schema Build()
-		{
-			return std::move(m_schema);
-		}
-
-	private:
 		Schema m_schema;
 	};
 }

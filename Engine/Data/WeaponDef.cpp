@@ -8,7 +8,7 @@ namespace rogue
 		static const Schema schema = SchemaBuilder<WeaponDef>("WeaponDef", &ItemDef::StaticSchema())
 										 .Field("damage", &WeaponDef::damage)
 										 .Field("reach", &WeaponDef::reach)
-										 .Field("damageType", &WeaponDef::damageType)
+										 .EnumField("damageType", &WeaponDef::damageType, DamageTypeNames)
 										 .Build();
 
 		return schema;

@@ -26,12 +26,6 @@ static void WriteFile(const char* path, const std::string& text)
 	out << text;
 }
 
-//test hardcoded content
-static void BuildContent(DefTable& table)
-{
-	
-}
-
 void CreateSampleModule()
 {
 	DefTable table;
@@ -70,6 +64,9 @@ int main()
 
 	//CreateSampleModule();
 	//printf("Sample file created!\n");
+
+	//Sleep(50000);
+	//return 1;
 
 	//read deftable
 	DefTable loaded;

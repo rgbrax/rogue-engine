@@ -6,7 +6,7 @@ namespace rogue
 	{
 		static const Schema schema = SchemaBuilder<ArmorDef>("ArmorDef", &ItemDef::StaticSchema())
 										 .Field("armorRating", &ArmorDef::armorRating)
-										 .Field("armorType", &ArmorDef::armorType)
+										 .EnumField("armorType", &ArmorDef::armorType, ArmorTypeNames)
 										 .Build();
 
 		return schema;

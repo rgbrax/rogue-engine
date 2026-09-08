@@ -4,7 +4,7 @@
 
 namespace rogue
 {
-	//authorable def types / kinds the engine can construct
+	//authored def types; not full parent-child hierarchy; i.e. you wouldn't create an ItemDef, you'd make a WeaponDef
 	enum class DefType : uint16_t
 	{
 		Invalid = 0,

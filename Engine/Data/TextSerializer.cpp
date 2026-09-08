@@ -39,6 +39,39 @@ namespace rogue
 			return std::string(buffer, result.ptr);
 		}
 
+		//skip keeps the default field, error stops the field
+		enum class ParseResult
+		{
+			Ok,
+			Skip,
+			Error
+		};
+
+		std::string_view EnumToName(const FieldDesc& field, int64_t value)
+		{
+			for (const EnumEntry& entry : field.enumValues)
+			{
+				if (entry.value == value)
+					return entry.name;
+			}
+
+			return {};
+		}
+
+		bool NameToEnum(const FieldDesc& field, std::string_view name, int64_t& outValue)
+		{
+			for (const EnumEntry& entry : field.enumValues)
+			{
+				if (entry.name == name)
+				{
+					outValue = entry.value;
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		std::string ValueToText(const FieldDesc& field, const Value& v)
 		{
 			switch (field.type)
@@ -46,8 +79,13 @@ namespace rogue
 			case FieldType::Bool:
 				return std::get<bool>(v) ? "true" : "false";
 			case FieldType::Int:
-			case FieldType::Enum: //#tbd: write enum string
 				return std::to_string(std::get<int64_t>(v));
+
+			case FieldType::Enum: {
+				const int64_t n = std::get<int64_t>(v);
+				const std::string_view name = EnumToName(field, n);
+				return name.empty() ? std::to_string(n) : std::string(name); //unnamed enum val will return number
+			}
 			case FieldType::Float:
 				return FloatToText(std::get<double>(v));
 			case FieldType::String:
@@ -59,27 +97,48 @@ namespace rogue
 			return {};
 		}
 
-		bool TextToValue(const FieldDesc& field, std::string_view text, Value& outValue)
+		ParseResult TextToValue(const FieldDesc& field, std::string_view text, Value& outValue)
 		{
 			switch (field.type)
 			{
 			case FieldType::Bool:
 				outValue = (text == "true");
-				return true;
+				return ParseResult::Ok;
 
-			case FieldType::Int:
-			case FieldType::Enum: {
+			case FieldType::Int: {
 				int64_t n = 0;
 				const auto r = std::from_chars(text.data(), text.data() + text.size(), n);
 				outValue = n;
-				return r.ec == std::errc();
+				return r.ec == std::errc() ? ParseResult::Ok : ParseResult::Error;
+			}
+
+			case FieldType::Enum: {
+				int64_t n = 0;
+				if (NameToEnum(field, text, n))
+				{
+					outValue = n;
+					return ParseResult::Ok;
+				}
+
+				//#tbd: remove once all enums are handled as text
+				const auto r = std::from_chars(text.data(), text.data() + text.size(), n);
+				if (r.ec == std::errc())
+				{
+					outValue = n;
+					return ParseResult::Ok;
+				}
+
+				//log unknown names, maybe out of date
+				std::printf("  warning: unknown value '%.*s' for enum field '%s', left at default\n",
+							(int)text.size(), text.data(), field.name.c_str());
+				return ParseResult::Skip;
 			}
 
 			case FieldType::Float: {
 				double d = 0.0;
 				const auto r = std::from_chars(text.data(), text.data() + text.size(), d);
 				outValue = d;
-				return r.ec == std::errc();
+				return r.ec == std::errc() ? ParseResult::Ok : ParseResult::Error;
 			}
 
 			case FieldType::String: {
@@ -87,18 +146,18 @@ namespace rogue
 				if (s.size() >= 2 && s.front() == '"' && s.back() == '"')
 					s = s.substr(1, s.size() - 2);
 				outValue = std::string(s);
-				return true;
+				return ParseResult::Ok;
 			}
 
 			case FieldType::Ref: {
 				uint64_t n = 0;
 				const auto r = std::from_chars(text.data(), text.data() + text.size(), n);
 				outValue = DefId{n};
-				return r.ec == std::errc();
+				return r.ec == std::errc() ? ParseResult::Ok : ParseResult::Error;
 			}
 			}
 
-			return false;
+			return ParseResult::Error;
 		}
 	}
 
@@ -197,7 +256,12 @@ namespace rogue
 			}
 
 			Value value;
-			if (!TextToValue(*field, rest, value))
+			const ParseResult result = TextToValue(*field, rest, value);
+
+			if (result == ParseResult::Skip)
+				continue;
+
+			if (result == ParseResult::Error)
 			{
 				if (outError != nullptr)
 					*outError = "line " + std::to_string(lineNumber) + ": could not parse '" + std::string(rest) + "'";

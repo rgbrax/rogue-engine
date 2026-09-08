@@ -10,6 +10,13 @@ namespace rogue
 		Poison
 	};
 
+	inline constexpr EnumEntry ConsumableTypeNames[] =
+	{
+		{"Food", ConsumableType::Food},
+		{"Potion", ConsumableType::Potion},
+		{"Poison", ConsumableType::Poison},
+	};
+
 	class ConsumableDef : public ItemDef
 	{
 	public:

@@ -14,6 +14,14 @@ namespace rogue
 		Shock
 	};
 
+	inline constexpr EnumEntry DamageTypeNames[] =
+	{
+		{"Physical", DamageType::Physical},
+		{"Fire", DamageType::Fire},
+		{"Frost", DamageType::Frost},
+		{"Shock", DamageType::Shock},
+	};
+
 	class WeaponDef : public ItemDef
 	{
 	public:

@@ -11,6 +11,14 @@ namespace rogue
 		Robes
 	};
 
+	inline constexpr EnumEntry ArmorTypeNames[] =
+	{
+		{"Clothes", ArmorType::Clothes},
+		{"LightArmor", ArmorType::LightArmor},
+		{"HeavyArmor", ArmorType::HeavyArmor},
+		{"Robes", ArmorType::Robes},
+	};
+
 	class ArmorDef : public ItemDef
 	{
 	public:
