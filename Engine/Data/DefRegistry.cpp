@@ -18,6 +18,7 @@ namespace rogue
 			{DefType::Weapon, "WeaponDef", &New<WeaponDef>},
 			{DefType::Armor, "ArmorDef", &New<ArmorDef>},
 			{DefType::Consumable, "ConsumableDef", &New<ConsumableDef>},
+			{DefType::Actor, "ActorDef", &New<ConsumableDef>},
 		};
 	}
 

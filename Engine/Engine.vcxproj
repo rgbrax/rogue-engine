@@ -84,6 +84,9 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Vector2.h" />
+    <ClInclude Include="Core\Vector3.h" />
+    <ClInclude Include="Data\Instance.h" />
     <ClInclude Include="Data\ActorDef.h" />
     <ClInclude Include="Data\ConsumableDef.h" />
     <ClInclude Include="Data\ArmorDef.h" />

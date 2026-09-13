@@ -23,6 +23,16 @@ namespace rogue
 		}
 		constexpr auto operator<=>(const ModuleId&) const = default;
 	};
+
+	struct InstanceId
+	{
+		uint64_t value = 0;
+		constexpr bool IsValid() const
+		{
+			return value != 0;
+		}
+		constexpr auto operator<=>(const InstanceId&) const = default;
+	};
 }
 
 //hashing

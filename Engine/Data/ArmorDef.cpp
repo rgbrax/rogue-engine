@@ -8,7 +8,6 @@ namespace rogue
 										 .Field("armorRating", &ArmorDef::armorRating)
 										 .EnumField("armorType", &ArmorDef::armorType, ArmorTypeNames)
 										 .Build();
-
 		return schema;
 	}
 }

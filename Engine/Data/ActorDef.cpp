@@ -2,13 +2,14 @@
 
 namespace rogue
 {
-	/* const Schema& ActorDef::StaticSchema()
+	const Schema& ActorDef::StaticSchema()
 	{
 		static const Schema schema = SchemaBuilder<ActorDef>("ActorDef", &ActorDef::StaticSchema())
-										 .Field("armorRating", &ArmorDef::armorRating)
-										 .Field("type", &ArmorDef::type)
+										 .Field("displayName", &ActorDef::displayName)
+										 .Field("health", &ActorDef::health)
+										 .Field("level", &ActorDef::level)
+										 .Field("isUnique", &ActorDef::isUnique)
 										 .Build();
-
-		// TODO: insert return statement here
-	}*/
+		return schema;
+	}
 }

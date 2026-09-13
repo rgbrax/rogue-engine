@@ -3,6 +3,9 @@
 
 namespace rogue
 {
+	//note: for now, just one armor. No armor slots
+	//note: maybe change name from Armor to Apparel
+
 	enum class ArmorType
 	{
 		Clothes,

@@ -13,6 +13,10 @@
     <ClInclude Include="Data\ActorDef.h" />
     <ClInclude Include="Data\DefTable.h" />
     <ClInclude Include="Data\DefRegistry.h" />
+    <ClInclude Include="Data\TextSerializer.h" />
+    <ClInclude Include="Data\Instance.h" />
+    <ClInclude Include="Core\Vector2.h" />
+    <ClInclude Include="Core\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Schema.cpp" />
@@ -25,5 +29,6 @@
     <ClCompile Include="Data\ActorDef.cpp" />
     <ClCompile Include="Data\DefTable.cpp" />
     <ClCompile Include="Data\DefRegistry.cpp" />
+    <ClCompile Include="Data\TextSerializer.cpp" />
   </ItemGroup>
 </Project>
