@@ -1,4 +1,5 @@
 #include "Data/DefRegistry.h"
+#include "Data/ActorDef.h"
 #include "Data/ArmorDef.h"
 #include "Data/ConsumableDef.h"
 #include "Data/WeaponDef.h"
@@ -18,7 +19,7 @@ namespace rogue
 			{DefType::Weapon, "WeaponDef", &New<WeaponDef>},
 			{DefType::Armor, "ArmorDef", &New<ArmorDef>},
 			{DefType::Consumable, "ConsumableDef", &New<ConsumableDef>},
-			{DefType::Actor, "ActorDef", &New<ConsumableDef>},
+			{DefType::Actor, "ActorDef", &New<ActorDef>},
 		};
 	}
 

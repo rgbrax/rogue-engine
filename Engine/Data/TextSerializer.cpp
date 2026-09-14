@@ -221,7 +221,12 @@ namespace rogue
 			if (line == "}")
 			{
 				if (current != nullptr)
-					outTable.Add(std::move(current));
+				{
+					const std::string editorId = current->editorId;
+					if (!outTable.Add(std::move(current)))
+						std::printf("  warning line %zu: '%s' is already loaded, kept the existing definition\n",
+									lineNumber, editorId.c_str());
+				}
 				schema = nullptr;
 				continue;
 			}

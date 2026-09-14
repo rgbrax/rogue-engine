@@ -8,31 +8,88 @@
 
 #include <cstdio>
 #include <fstream>
+#include <iostream>
 #include <sstream>
-
-#include <Windows.h>
+#include <string>
+#include <vector>
 
 using namespace rogue;
+DefTable g_defTable;
 
-static std::string ReadFile(const char* path)
+bool ReadFile(const std::string& path, std::string& outText)
 {
 	std::ifstream in(path, std::ios::binary);
+	if (!in)
+		return false;
+
 	std::ostringstream ss;
 	ss << in.rdbuf();
-	return ss.str();
+	outText = ss.str();
+	return true;
 }
 
-static void WriteFile(const char* path, const std::string& text)
+bool WriteFile(const std::string& path, const std::string& text)
 {
 	std::ofstream out(path, std::ios::binary);
+	if (!out)
+		return false;
+
 	out << text;
+	return static_cast<bool>(out);
 }
 
-void CreateSampleModule() //create sample defs
+std::string FieldValueToString(const FieldDesc& field, const Value& value)
 {
-	DefTable table;
+	switch (field.type)
+	{
+	case FieldType::Bool:
+		return std::get<bool>(value) ? "true" : "false";
 
-	//weapon
+	case FieldType::Int:
+		return std::to_string(std::get<int64_t>(value));
+
+	case FieldType::Float: {
+		char buffer[32];
+		std::snprintf(buffer, sizeof(buffer), "%g", std::get<double>(value));
+		return buffer;
+	}
+
+	case FieldType::String:
+		return "\"" + std::get<std::string>(value) + "\"";
+
+	case FieldType::Ref:
+		return "#" + std::to_string(std::get<DefId>(value).value);
+
+	case FieldType::Enum: {
+		const int64_t n = std::get<int64_t>(value);
+		for (const EnumEntry& entry : field.enumValues)
+		{
+			if (entry.value == n)
+				return std::string(entry.name);
+		}
+		return std::to_string(n);
+	}
+
+	default:
+		return "?";
+	}
+}
+
+void PrintDef(const Def& def)
+{
+	const Schema& schema = def.GetSchema();
+	std::printf("%s %s (id %llu)\n", schema.TypeName().c_str(), def.editorId.c_str(),
+				static_cast<unsigned long long>(def.id.value));
+
+	std::vector<const FieldDesc*> fields;
+	schema.CollectFields(fields);
+
+	for (const FieldDesc* field : fields)
+		std::printf("    %-16s %s\n", field->name.c_str(), FieldValueToString(*field, field->get(&def)).c_str());
+}
+
+void AddSampleDefs(DefTable& table)
+{
 	auto iron = std::make_unique<WeaponDef>();
 	iron->type = DefType::Weapon;
 	iron->editorId = "weapon_iron_sword";
@@ -43,7 +100,6 @@ void CreateSampleModule() //create sample defs
 	iron->reach = 1.2f;
 	table.Add(std::move(iron));
 
-	//armor
 	auto helmet = std::make_unique<ArmorDef>();
 	helmet->type = DefType::Armor;
 	helmet->editorId = "armor_iron_helmet";
@@ -54,7 +110,6 @@ void CreateSampleModule() //create sample defs
 	helmet->armorType = ArmorType::HeavyArmor;
 	table.Add(std::move(helmet));
 
-	//consumable
 	auto healthPotion = std::make_unique<ConsumableDef>();
 	healthPotion->type = DefType::Consumable;
 	healthPotion->editorId = "aid_health_potion";
@@ -64,110 +119,164 @@ void CreateSampleModule() //create sample defs
 	healthPotion->effectDuration = 0.0f;
 	healthPotion->value = 10;
 	healthPotion->weight = 0.1f;
+	table.Add(std::move(healthPotion));
 
-	//actor
 	auto goblin = std::make_unique<ActorDef>();
 	goblin->type = DefType::Actor;
 	goblin->editorId = "actor_goblin";
 	goblin->displayName = "Goblin";
+	goblin->health = 20;
 	goblin->level = 1;
 	goblin->isUnique = false;
-
-	std::string fileData = TextSerializer::WriteAll(table);
-	WriteFile("base.roguemod", fileData);
+	table.Add(std::move(goblin));
 }
 
-void RunCreateSampleDefs()
+void PrintHelp()
 {
-	CreateSampleModule();
-	printf("Sample file created!\n");
+	std::printf(
+		"commands:\n"
+		"  sample <file>    write a sample module (sword, helmet, potion, goblin)\n"
+		"  load <file>      load defs from a module; repeat to load more files\n"
+		"  save <file>      save every loaded def into one module\n"
+		"  list             list every loaded def and its fields\n"
+		"  get <editorId>   show one loaded def\n"
+		"  types            list the def types the registry can create\n"
+		"  clear            unload every def\n"
+		"  help             show this list\n"
+		"  quit             exit\n");
 }
 
-//temp location
-DefTable defTable;
-
-void RunLoadDefs( std::string filePath )
+bool TakesArgument(const std::string& command)
 {
-	int defCountOld = defTable.Count();
-	int defCountNew = 0;
+	return command == "sample" || command == "load" || command == "save" || command == "get";
+}
 
-	std::string error;
-	if (!TextSerializer::ReadAll(ReadFile(filePath.c_str()), defTable, &error))
+bool RunCommand(const std::string& command, const std::string& arg)
+{
+	if (TakesArgument(command) && arg.empty())
 	{
-		std::printf("read failed: %s\n", error.c_str());
-		return;
+		std::printf("usage: %s <%s>\n", command.c_str(), command == "get" ? "editorId" : "file");
+		return true;
 	}
 
-	defCountNew = (int)defTable.Count();
-
-	printf("File loaded!\n");
-	printf("-> loaded %i defs (%i total)\n", (defCountNew-defCountOld), defCountNew);
-}
-
-void RunListDefinitions( )
-{
-	printf("DefRegistry: DefType Count: %i\n", (int)DefRegistry::All().size());
-	for (const DefTypeInfo& info : DefRegistry::All())
-		printf("->%s\n", info.name.data());
-
-	printf("DefRegistry: DefTable Count: %i\n", (int)defTable.Count());
-
-	//list each def
-	for (const auto& x : defTable.All())
+	if (command == "sample")
 	{
-		printf("DefId: %llu\n", x->id.value);
-		printf("->Def EditorId: %s\n", x->editorId.c_str());
-
-		if (x->type == DefType::Weapon)
+		DefTable sample;
+		AddSampleDefs(sample);
+		if (WriteFile(arg, TextSerializer::WriteAll(sample)))
+			std::printf("wrote %zu sample defs to %s\n", sample.Count(), arg.c_str());
+		else
+			std::printf("could not write %s\n", arg.c_str());
+	}
+	else if (command == "load")
+	{
+		std::string text;
+		if (!ReadFile(arg, text))
 		{
-			printf("->DefType : Weapon");
-			WeaponDef* weapon = static_cast<WeaponDef*>(x.get());
-			printf("->->Damage: %f\n", weapon->damage);
-			printf("->->Reach: %f\n", weapon->reach);
+			std::printf("could not open %s\n", arg.c_str());
+			return true;
 		}
+
+		const size_t before = g_defTable.Count();
+		std::string error;
+		const bool ok = TextSerializer::ReadAll(text, g_defTable, &error);
+		const size_t added = g_defTable.Count() - before;
+
+		if (!ok)
+			std::printf("stopped reading %s: %s\n", arg.c_str(), error.c_str());
+		std::printf("loaded %zu new defs from %s (%zu total)\n", added, arg.c_str(), g_defTable.Count());
 	}
-}
+	else if (command == "save")
+	{
+		if (WriteFile(arg, TextSerializer::WriteAll(g_defTable)))
+			std::printf("saved %zu defs to %s\n", g_defTable.Count(), arg.c_str());
+		else
+			std::printf("could not write %s\n", arg.c_str());
+	}
+	else if (command == "list")
+	{
+		if (g_defTable.Count() == 0)
+			std::printf("no defs loaded\n");
+		for (const std::unique_ptr<Def>& def : g_defTable.All())
+			PrintDef(*def);
+	}
+	else if (command == "get")
+	{
+		if (const Def* def = g_defTable.Find(arg))
+			PrintDef(*def);
+		else
+			std::printf("'%s' is not loaded\n", arg.c_str());
+	}
+	else if (command == "types")
+	{
+		for (const DefTypeInfo& info : DefRegistry::All())
+			std::printf("  %.*s\n", static_cast<int>(info.name.size()), info.name.data());
+	}
+	else if (command == "clear")
+	{
+		g_defTable.Clear();
+		std::printf("unloaded every def\n");
+	}
+	else if (command == "help")
+	{
+		PrintHelp();
+	}
+	else if (command == "quit" || command == "exit")
+	{
+		return false;
+	}
+	else
+	{
+		std::printf("unknown command '%s'; type help\n", command.c_str());
+	}
 
-void RunListDefById(std::string editorId)
-{
-	//confirm objects
-	if (const Def* def = defTable.Find(editorId))
-		printf("\nloaded '%s' as a %s\n", def->editorId.c_str(), def->GetSchema().TypeName().c_str());
-}
-
-void RunLoadInstances( )
-{
-
+	return true;
 }
 
 int main(int argc, const char* argv[])
 {
-	printf("param entered: %s\n", argv[1]);
+	if (argc > 1)
+	{
+		for (int i = 1; i < argc; ++i)
+		{
+			const std::string command = argv[i];
+			std::string arg;
+			if (TakesArgument(command) && i + 1 < argc)
+				arg = argv[++i];
 
-	if (std::string(argv[1]) == "save") //save the current defs to the base file
-	{
-		RunCreateSampleDefs();
-	}
-	else if (std::string(argv[1]) == "load") //load a typed filename
-	{
-		RunLoadDefs(argv[2]);
-	}
-	else if ( std::string( argv[1] ) == "list" ) //list the current defs in the system
-	{
-		RunListDefinitions();
-	}
-	else if ( std::string( argv[1] ) == "getdef" )
-	{
-		RunListDefById(std::string(argv[2]));
-	}
-	else if ( std::string( argv[1] ) == "run" ) //run and compile the current defs into instances, then do something
-	{
-		RunLoadInstances();
-	}
-	else
-	{
-		printf("Error: invalid parameter;\nParameters:\n1) save | Save sample def types\n2) load | Load file defs\n3) help | this screen\n4) list | list all loaded defs\n5) getdef <EditorId> | list def by defid\n6) run | run the instances");
+			if (!RunCommand(command, arg))
+				break;
+		}
+		return 0;
 	}
 
-	return 1;
+	PrintHelp();
+
+	std::string line;
+	while (true)
+	{
+		std::printf("> ");
+		if (!std::getline(std::cin, line))
+			break;
+
+		size_t start = line.find_first_not_of(" \t\r");
+		if (start == std::string::npos)
+			continue;
+
+		size_t end = line.find_first_of(" \t\r", start);
+		std::string command = line.substr(start, end == std::string::npos ? std::string::npos : end - start);
+
+		std::string arg;
+		if (end != std::string::npos)
+		{
+			size_t argStart = line.find_first_not_of(" \t\r", end);
+			if (argStart != std::string::npos)
+				arg = line.substr(argStart, line.find_last_not_of(" \t\r") - argStart + 1);
+		}
+
+		if (!RunCommand(command, arg))
+			break;
+	}
+
+	return 0;
 }
