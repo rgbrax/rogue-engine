@@ -10,11 +10,5 @@ namespace rogue
 		uint32_t health = 0;
 		uint32_t level = 1;
 		bool isUnique = false;
-
-		static const Schema& StaticSchema();
-		const Schema& GetSchema() const override
-		{
-			return StaticSchema();
-		}
 	};
 }

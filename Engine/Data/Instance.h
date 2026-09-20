@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Ids.h"
-#include "Data/Transform.h"
+#include "Core/Vector2.h"
 
 #include <string>
 #include <vector>
@@ -12,6 +12,5 @@ namespace rogue
 		InstanceId id;
 		DefId def;
 		Vector2 position;
-		//field overrides
 	};
 }

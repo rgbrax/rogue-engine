@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include <functional>
+#include <compare>
 
 namespace rogue
 {
@@ -34,22 +34,3 @@ namespace rogue
 		constexpr auto operator<=>(const InstanceId&) const = default;
 	};
 }
-
-//hashing
-template <>
-struct std::hash<rogue::DefId>
-{
-	size_t operator()(const rogue::DefId& id) const noexcept
-	{
-		return std::hash<uint64_t>{}(id.value);
-	}
-};
-
-template <>
-struct std::hash<rogue::ModuleId>
-{
-	size_t operator()(const rogue::ModuleId& id) const noexcept
-	{
-		return std::hash<uint64_t>{}(id.value);
-	}
-};
