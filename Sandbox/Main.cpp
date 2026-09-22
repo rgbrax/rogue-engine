@@ -37,17 +37,76 @@ bool WriteFile(const std::string& path, const std::string& text)
 
 void RunTest( )
 {
-	printf("Starting file load\n");
-	DefManager defmgr;
-	defmgr.LoadFiles();
-	printf("Loaded def count: %i\n", (int)defmgr.GetDefs().size());
-	printf("Test print:\n");
-	Def* def = defmgr.GetDefByEditorId("iron_sword");
-	if ( def->type == DefType::Weapon )
+	DefManager defMgr;
 	{
-		WeaponDef* weapon = static_cast<WeaponDef*>(def);
-		printf("Weapon display name: %s, weapon damage: %i\n", weapon->displayName.c_str(), weapon->damage);
+		WeaponDef* wpn = new WeaponDef();
+		wpn->editorId = "iron_sword";
+		wpn->displayName = "Iron Sword";
+		wpn->isUnique = false;
+		wpn->range = 1.2f;
+		wpn->type = DefType::Weapon;
+		wpn->value = 20;
+		wpn->weight = 5.0f;
+		wpn->damage = 5;
+		defMgr.AddDef(wpn);
 	}
+	{
+		WeaponDef* wpn = new WeaponDef();
+		wpn->editorId = "steel_sword";
+		wpn->displayName = "Steel Sword";
+		wpn->isUnique = false;
+		wpn->range = 1.2f;
+		wpn->type = DefType::Weapon;
+		wpn->value = 40;
+		wpn->weight = 7.0f;
+		wpn->damage = 7;
+		defMgr.AddDef(wpn);
+	}
+	{
+		ActorDef* actor = new ActorDef();
+		actor->editorId = "npc_steven";
+		actor->displayName = "Steven";
+		actor->health = 100;
+		actor->level = 1;
+		actor->isUnique = true;
+		actor->type = DefType::Actor;
+		defMgr.AddDef(actor);
+	}
+	{
+		ActorDef* actor = new ActorDef();
+		actor->editorId = "npc_ogre";
+		actor->displayName = "Ogre Grunt";
+		actor->health = 125;
+		actor->level = 1;
+		actor->isUnique = false;
+		actor->type = DefType::Actor;
+		defMgr.AddDef(actor);
+
+	}
+	{
+		ActorDef* actor = new ActorDef();
+		actor->editorId = "npc_ogre_elite";
+		actor->displayName = "Ogre Elite";
+		actor->health = 300;
+		actor->level = 5;
+		actor->isUnique = false;
+		actor->type = DefType::Actor;
+		defMgr.AddDef(actor);
+
+	}
+	{
+		ActorDef* actor = new ActorDef();
+		actor->editorId = "npc_ogre_captain_markkus";
+		actor->displayName = "Captain Markkus";
+		actor->health = 500;
+		actor->level = 10;
+		actor->isUnique = true;
+		actor->type = DefType::Actor;
+		defMgr.AddDef(actor);
+	}
+
+	defMgr.SaveFiles();
+	defMgr.LoadFiles();
 }
 
 int main(int argc, const char* argv[])

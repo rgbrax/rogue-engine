@@ -6,11 +6,11 @@ namespace rogue
 	//authorable def types
 	enum class DefType : uint8_t
 	{
-		Invalid = 0,
-		Weapon,
+		Invalid,
+		Actor,
 		Armor,
 		Consumable,
-		Actor,		
+		Weapon,
 		Count
 	};
 }

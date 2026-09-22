@@ -9,7 +9,7 @@ namespace rogue
 	public:
 		std::string displayName = "";
 		float weight = 0.0f;
-		int32_t value = 0;
+		uint32_t value = 0;
 		bool isUnique = false;
 	};
 }

@@ -17,5 +17,6 @@ namespace rogue
 		bool AddDef(Def* def); //manually add def
 	private:
 		std::vector<std::shared_ptr<Def>> m_defs; //shared_ptr not efficient, but hard to mess up; improve memory later
+		const std::string m_defsFilePath = "defs.json";
 	};
 }
