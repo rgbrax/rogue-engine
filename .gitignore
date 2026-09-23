@@ -67,7 +67,6 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
-/Docs
 
 # Visual Studio
 .vs/
@@ -91,9 +90,7 @@ Testing/
 ipch/
 *.ipch
 
-# ThirdParty is vendored and MUST be committed - override the binary rules above.
-# The directory negation has to come first: git cannot re-include a file whose
-# parent directory is excluded, and [Xx]64/ above matches SDL3's lib/x64 folder.
+#ThirdParty
 !ThirdParty/**/[Xx]64/
 !ThirdParty/**/[Xx]86/
 !ThirdParty/**/*.lib

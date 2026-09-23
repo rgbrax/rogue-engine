@@ -16,7 +16,7 @@ namespace rogue
 
 	struct ModuleId
 	{
-		uint16_t value = 0;
+		uint8_t value = 0;
 		constexpr bool IsValid() const
 		{
 			return value != 0;

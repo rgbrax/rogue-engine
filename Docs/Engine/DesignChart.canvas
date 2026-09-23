@@ -1,0 +1,13 @@
+{
+	"nodes":[
+		{"id":"0a080d6daaaba19f","type":"group","x":-100,"y":-600,"width":760,"height":580,"color":"#ff0000","label":"Core Objects"},
+		{"id":"cbeefae8a80fabab","x":680,"y":-600,"width":660,"height":360,"color":"1","type":"group","label":"Common Types"},
+		{"id":"125170fccc34f5cb","type":"text","text":"## Definition: Class\n- Authored definitions serialized\n- Listed in editor, under Defs\n- Unique vs non-unique\n- Type by DefType","x":-80,"y":-580,"width":340,"height":220,"color":"#f22626"},
+		{"id":"d7c8c4f368be25ad","type":"text","text":"## Instance: Struct\n- Non-pure ECS entity in-memory\n- Components list\n- No parent-child hierarchy","x":280,"y":-580,"width":340,"height":220,"color":"#f22626"},
+		{"id":"261f9184088cb026","type":"text","text":"## Component: Class\n- Defines fields varying by type, by functionality\n- Ex: Health, PlayerController, ActorAI, Velocity, Transform","x":-80,"y":-340,"width":340,"height":300,"color":"#f22626"},
+		{"id":"9fb4dbcfe4916cbe","type":"text","text":"## Definition Types:\n- Actor\n- Item\n\t- Weapon\n\t- Armor\n\t- Consumable","x":700,"y":-580,"width":300,"height":320,"color":"1"},
+		{"id":"21136c86b22d098a","type":"text","text":"## Component Types:\n- Transform\n- Velocity\n- Faction\n- Interaction\n- Inventory\n- LootTable\n- Health / Stamina / Magicka\n- CharacterSheet (Skills, Class, Attributes, Perks, Level, etc.)","x":1020,"y":-580,"width":300,"height":320,"color":"1"},
+		{"id":"db9bfd39c0b0bf1b","x":120,"y":-1060,"width":810,"height":320,"color":"#e1ff00","type":"text","text":"# Rogue Engine:\nIs a role-playing game engine focused on creating content for varying RPG worlds. \n\nThe architecture is a standard mix of non-pure ECS and OOD patterns. What other engines would call a GameObject or BaseEntity, we call an Instance. \n\n- Instances are any engine-defined object loaded in-memory. \n- Definitions are engine-authored content, derived from a DefType.\n- Components are objects of functionality-defining data listed within each Instance. Unlike a \"pure\" Entity Component System, we are not restricting Components to data-only. Functions may be added to a Component."}
+	],
+	"edges":[]
+}
