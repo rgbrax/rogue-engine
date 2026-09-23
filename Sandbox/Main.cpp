@@ -13,106 +13,194 @@
 
 using namespace rogue;
 
-bool ReadFile(const std::string& path, std::string& outText)
+namespace test
 {
-	std::ifstream in(path, std::ios::binary);
-	if (!in)
-		return false;
+	DefManager* defMgr = new DefManager();
 
-	std::ostringstream ss;
-	ss << in.rdbuf();
-	outText = ss.str();
-	return true;
-}
-
-bool WriteFile(const std::string& path, const std::string& text)
-{
-	std::ofstream out(path, std::ios::binary);
-	if (!out)
-		return false;
-
-	out << text;
-	return static_cast<bool>(out);
-}
-
-void RunTest( )
-{
-	DefManager defMgr;
+	void save( )
 	{
-		WeaponDef* wpn = new WeaponDef();
-		wpn->editorId = "iron_sword";
-		wpn->displayName = "Iron Sword";
-		wpn->isUnique = false;
-		wpn->range = 1.2f;
-		wpn->type = DefType::Weapon;
-		wpn->value = 20;
-		wpn->weight = 5.0f;
-		wpn->damage = 5;
-		defMgr.AddDef(wpn);
-	}
-	{
-		WeaponDef* wpn = new WeaponDef();
-		wpn->editorId = "steel_sword";
-		wpn->displayName = "Steel Sword";
-		wpn->isUnique = false;
-		wpn->range = 1.2f;
-		wpn->type = DefType::Weapon;
-		wpn->value = 40;
-		wpn->weight = 7.0f;
-		wpn->damage = 7;
-		defMgr.AddDef(wpn);
-	}
-	{
-		ActorDef* actor = new ActorDef();
-		actor->editorId = "npc_steven";
-		actor->displayName = "Steven";
-		actor->health = 100;
-		actor->level = 1;
-		actor->isUnique = true;
-		actor->type = DefType::Actor;
-		defMgr.AddDef(actor);
-	}
-	{
-		ActorDef* actor = new ActorDef();
-		actor->editorId = "npc_ogre";
-		actor->displayName = "Ogre Grunt";
-		actor->health = 125;
-		actor->level = 1;
-		actor->isUnique = false;
-		actor->type = DefType::Actor;
-		defMgr.AddDef(actor);
-
-	}
-	{
-		ActorDef* actor = new ActorDef();
-		actor->editorId = "npc_ogre_elite";
-		actor->displayName = "Ogre Elite";
-		actor->health = 300;
-		actor->level = 5;
-		actor->isUnique = false;
-		actor->type = DefType::Actor;
-		defMgr.AddDef(actor);
-
-	}
-	{
-		ActorDef* actor = new ActorDef();
-		actor->editorId = "npc_ogre_captain_markkus";
-		actor->displayName = "Captain Markkus";
-		actor->health = 500;
-		actor->level = 10;
-		actor->isUnique = true;
-		actor->type = DefType::Actor;
-		defMgr.AddDef(actor);
+		bool success = defMgr->SaveFiles("test.json");
+		printf("Saved: %i\n", (int)success);
 	}
 
-	defMgr.SaveFiles();
-	defMgr.LoadFiles();
+	void load( )
+	{
+		bool success = defMgr->LoadFiles("test.json");
+		printf("Loaded: %i\n", (int)success);
+	}
+
+	void create( )
+	{
+		{
+			WeaponDef* wpn = new WeaponDef();
+			wpn->editorId = "iron_sword";
+			wpn->displayName = "Iron Sword";
+			wpn->isUnique = false;
+			wpn->range = 1.2f;
+			wpn->type = DefType::Weapon;
+			wpn->value = 20;
+			wpn->weight = 5.0f;
+			wpn->damage = 5;
+			defMgr->AddDef(wpn);
+			printf("Side of weapon: %i\n", (int)sizeof(wpn));
+		}
+		{
+			WeaponDef* wpn = new WeaponDef();
+			wpn->editorId = "steel_sword";
+			wpn->displayName = "Steel Sword";
+			wpn->isUnique = false;
+			wpn->range = 1.2f;
+			wpn->type = DefType::Weapon;
+			wpn->value = 40;
+			wpn->weight = 7.0f;
+			wpn->damage = 7;
+			defMgr->AddDef(wpn);
+		}
+		{
+			ActorDef* actor = new ActorDef();
+			actor->editorId = "npc_steven";
+			actor->displayName = "Steven";
+			actor->health = 100;
+			actor->level = 1;
+			actor->isUnique = true;
+			actor->type = DefType::Actor;
+			defMgr->AddDef(actor);
+		}
+		{
+			ActorDef* actor = new ActorDef();
+			actor->editorId = "npc_ogre";
+			actor->displayName = "Ogre Grunt";
+			actor->health = 125;
+			actor->level = 1;
+			actor->isUnique = false;
+			actor->type = DefType::Actor;
+			defMgr->AddDef(actor);
+		}
+		{
+			ActorDef* actor = new ActorDef();
+			actor->editorId = "npc_ogre_elite";
+			actor->displayName = "Ogre Elite";
+			actor->health = 300;
+			actor->level = 5;
+			actor->isUnique = false;
+			actor->type = DefType::Actor;
+			defMgr->AddDef(actor);
+		}
+		{
+			ActorDef* actor = new ActorDef();
+			actor->editorId = "npc_ogre_captain_markkus";
+			actor->displayName = "Captain Markkus";
+			actor->health = 500;
+			actor->level = 10;
+			actor->isUnique = true;
+			actor->type = DefType::Actor;
+			defMgr->AddDef(actor);
+		}
+
+		printf("Created defs; Total: %i\n", (int)defMgr->GetDefs().size());
+	}
+
+	void clear( )
+	{
+		defMgr->ClearDefs();
+		printf("Cleared defs; Total: %i\n", (int)defMgr->GetDefs().size());
+	}
+
+	void print( )
+	{
+		printf("Printing defs:\n");
+		for ( auto x : defMgr->GetDefs( ) )
+		{
+			printf("EditorId : %s\n", x->editorId.c_str());
+			printf("Type: %i\n", (int)x->type);
+
+			if (x->type == DefType::Actor)
+			{
+				ActorDef* actor = static_pointer_cast<ActorDef>(x).get();
+				printf("-->DisplayName: %s\n", actor->displayName.c_str());
+				printf("-->Health: %i\n", (int)actor->health);				
+			}
+			else if ( x->type == DefType::Armor )
+			{
+				ArmorDef* armor = static_pointer_cast<ArmorDef>(x).get();
+				printf("-->DisplayName: %s\n", armor->displayName.c_str());
+				printf("-->ArmorRating: %i\n", (int)armor->armorRating);	
+			}
+			else if ( x->type == DefType::Consumable )
+			{
+				ConsumableDef* consumable = static_pointer_cast<ConsumableDef>(x).get();
+				printf("-->DisplayName: %s\n", consumable->displayName.c_str());
+				printf("-->EffectAmount: %i\n", (int)consumable->effectAmount);	
+			}
+			else if ( x->type == DefType::Weapon )
+			{
+				WeaponDef* weapon = static_pointer_cast<WeaponDef>(x).get();
+				printf("-->DisplayName: %s\n", weapon->displayName.c_str());
+				printf("-->Damage: %i\n", (int)weapon->damage);	
+			}
+		}
+	}
+
+	void count( )
+	{
+		printf("Count: %i\n", (int)defMgr->GetDefs().size());
+	}
+
+	void del(int id)
+	{
+		bool success = defMgr->RemoveDefById(DefId(id));
+		printf("Deleted ID success: %i\n", (int)success);
+	}
+
+	void run( )
+	{
+		while ( true )
+		{
+			std::string input = "";
+			printf("command: ");
+			std::cin >> input;
+
+			if ( input == "save" )
+			{
+				save();
+			}
+			else if ( input == "load" )
+			{
+				load();
+			}
+			else if (input == "create")
+			{
+				create();
+			}
+			else if (input == "print")
+			{
+				print();
+			}
+			else if (input == "count")
+			{
+				count();
+			}
+			else if (input == "clear")
+			{
+				clear();
+			}
+			else if (input == "del_id")
+			{
+				int num;
+				printf("number: ");
+				std::cin >> num;
+				del(num);
+			}
+
+			printf("\n\n");
+		}
+	}
 }
 
 int main(int argc, const char* argv[])
 {
 	printf("START\n");
-	RunTest();
+	test::run();
 	std::cin;
 	printf("END");
 	return 0;
