@@ -81,6 +81,5 @@
     <ClCompile Include="ThirdParty\Lua\src\lvm.c" />
     <ClCompile Include="ThirdParty\Lua\src\lzio.c" />
     <ClCompile Include="Platform\WinAPI.cpp" />
-    <ClCompile Include="Platform\Window.cpp" />
   </ItemGroup>
 </Project>

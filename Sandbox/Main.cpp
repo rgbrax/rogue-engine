@@ -3,7 +3,9 @@
 #include "Data/ConsumableDef.h"
 #include "Data/WeaponDef.h"
 #include "Data/DefManager.h"
+
 #include "Platform/WinAPI.h"
+#include "Platform/Window.h"
 
 #include <cstdio>
 #include <fstream>
@@ -19,9 +21,33 @@ namespace test
 	DefManager* defMgr = new DefManager();
 	WinAPI* winapi = new WinAPI();
 
+	namespace funcs
+	{
+		void MsgBox( )
+		{
+			std::string title = "Notice";
+			std::string msg = window::GetControlText("txt_msgbox_input");
+			MessageBoxA(window::m_window, msg.c_str(), 0, 0);			
+		}
+
+		void LogMsg( )
+		{
+			std::string msg = window::GetControlText("txt_log_input");
+			printf("[ui_log] : %s\n", msg.c_str());
+		}
+	}
+
 	void window( )
 	{
-		winapi->SetupWindow();
+		window::m_windowTitle = "REngine";
+		window::m_windowClassName = "REngineClass";
+		window::AddControl(window::ControlType::Edit, "txt_msgbox_input", "", 100, 25);
+		window::AddControl(window::ControlType::Button, "btn_msgbox_run", "Submit Msg", 100, 25);
+		window::AddControl(window::ControlType::Edit, "txt_log_input", "", 100, 25);
+		window::AddControl(window::ControlType::Button, "btn_log_run", "Submit Log", 100, 25);
+		window::AddControlFunction("btn_msgbox_run", funcs::MsgBox);
+		window::AddControlFunction("btn_log_run", funcs::LogMsg);
+		rogue::window::Setup();
 	}
 
 	void save( )
