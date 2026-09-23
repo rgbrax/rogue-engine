@@ -43,6 +43,8 @@
     <ClInclude Include="ThirdParty\Lua\src\lundump.h" />
     <ClInclude Include="ThirdParty\Lua\src\lvm.h" />
     <ClInclude Include="ThirdParty\Lua\src\lzio.h" />
+    <ClInclude Include="Platform\WinAPI.h" />
+    <ClInclude Include="Platform\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Data\DefManager.cpp" />
@@ -78,5 +80,7 @@
     <ClCompile Include="ThirdParty\Lua\src\lutf8lib.c" />
     <ClCompile Include="ThirdParty\Lua\src\lvm.c" />
     <ClCompile Include="ThirdParty\Lua\src\lzio.c" />
+    <ClCompile Include="Platform\WinAPI.cpp" />
+    <ClCompile Include="Platform\Window.cpp" />
   </ItemGroup>
 </Project>

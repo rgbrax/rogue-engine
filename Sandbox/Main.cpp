@@ -3,6 +3,7 @@
 #include "Data/ConsumableDef.h"
 #include "Data/WeaponDef.h"
 #include "Data/DefManager.h"
+#include "Platform/WinAPI.h"
 
 #include <cstdio>
 #include <fstream>
@@ -16,6 +17,12 @@ using namespace rogue;
 namespace test
 {
 	DefManager* defMgr = new DefManager();
+	WinAPI* winapi = new WinAPI();
+
+	void window( )
+	{
+		winapi->SetupWindow();
+	}
 
 	void save( )
 	{
@@ -183,6 +190,10 @@ namespace test
 			else if (input == "clear")
 			{
 				clear();
+			}
+			else if (input == "window")
+			{
+				window();
 			}
 			else if (input == "del_id")
 			{

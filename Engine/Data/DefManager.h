@@ -19,6 +19,7 @@ namespace rogue
 		bool RemoveDefByEditorId(std::string_view editorId);
 		bool RemoveDefByPtr(std::shared_ptr<Def> obj);
 		bool ClearDefs();
+
 	private:
 		std::vector<std::shared_ptr<Def>> m_defs; //shared_ptr not efficient, but hard to mess up; improve memory later
 	};
