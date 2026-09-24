@@ -67,7 +67,7 @@ namespace rogue
 		bool AddControl(ControlType type, std::string_view name, std::string_view text, int sizeX, int sizeY);
 		bool AddControlFunction(std::string_view controlName, std::function<void()> func);
 		std::string GetControlText(std::string_view name);
-		void SetControlText(std::string_view name);
+		void SetControlText(std::string_view name, std::string_view data);
 		Control* GetControlByName(std::string_view name);
 		Control* GetControlById(uint8_t id);
 		void RunControlFunctions(std::string_view name);
@@ -173,7 +173,7 @@ namespace rogue
 			return std::string();
 		}
 
-		void SetControlText(std::string_view name)
+		void SetControlText(std::string_view name, std::string_view data)
 		{
 			if (name.empty())
 				return;
@@ -182,7 +182,7 @@ namespace rogue
 			{
 				if (control->name == name)
 				{
-					SetWindowTextA(control->handle, name.data());
+					SetWindowTextA(control->handle, data.data());
 				}
 			}
 		}

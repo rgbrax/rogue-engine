@@ -1,8 +1,8 @@
 #include "Data/ActorDef.h"
 #include "Data/ArmorDef.h"
 #include "Data/ConsumableDef.h"
-#include "Data/WeaponDef.h"
 #include "Data/DefManager.h"
+#include "Data/WeaponDef.h"
 
 #include "Platform/WinAPI.h"
 #include "Platform/Window.h"
@@ -23,46 +23,83 @@ namespace test
 
 	namespace funcs
 	{
-		void MsgBox( )
+		void MsgBox()
 		{
 			std::string title = "Notice";
 			std::string msg = window::GetControlText("txt_msgbox_input");
-			MessageBoxA(window::m_window, msg.c_str(), 0, 0);			
+			MessageBoxA(window::m_window, msg.c_str(), 0, 0);
 		}
 
-		void LogMsg( )
+		void LogMsg()
 		{
 			std::string msg = window::GetControlText("txt_log_input");
 			printf("[ui_log] : %s\n", msg.c_str());
 		}
+
+		void Login()
+		{
+			std::string user = window::GetControlText("txt_login_username");
+			std::string pass = window::GetControlText("txt_login_password");
+
+			if (user.empty() || pass.empty())
+			{
+				window::SetControlText("label_login_result_msg", "Login result: error");
+				return;
+			}
+
+			if (user == "admin" && pass == "123")
+			{
+				window::SetControlText("label_login_result_msg", "Login result: success");
+				return;
+			}
+			else
+			{
+				window::SetControlText("label_login_result_msg", "Login result: failure");
+				return;
+			}
+		}
 	}
 
-	void window( )
+	void window()
 	{
 		window::m_windowTitle = "REngine";
 		window::m_windowClassName = "REngineClass";
-		window::AddControl(window::ControlType::Edit, "txt_msgbox_input", "", 100, 25);
-		window::AddControl(window::ControlType::Button, "btn_msgbox_run", "Submit Msg", 100, 25);
-		window::AddControl(window::ControlType::Edit, "txt_log_input", "", 100, 25);
-		window::AddControl(window::ControlType::Button, "btn_log_run", "Submit Log", 100, 25);
+		window::AddControl(window::ControlType::Label, "label_intro", "REngine test window:", 150, 25);
+
+		window::AddControl(window::ControlType::Edit, "txt_msgbox_input", "", 150, 25);
+		window::AddControl(window::ControlType::Button, "btn_msgbox_run", "Submit Msg", 150, 25);
+		window::AddControl(window::ControlType::Label, "label_filler_01", "", 150, 25);
+
+		window::AddControl(window::ControlType::Edit, "txt_log_input", "", 150, 25);
+		window::AddControl(window::ControlType::Button, "btn_log_run", "Submit Log", 150, 25);
+		window::AddControl(window::ControlType::Label, "label_filler_02", "", 150, 25);
+
+		window::AddControl(window::ControlType::Label, "label_login_msg", "Login:", 150, 25);
+		window::AddControl(window::ControlType::Edit, "txt_login_username", "user", 150, 25);
+		window::AddControl(window::ControlType::Edit, "txt_login_password", "pass", 150, 25);
+		window::AddControl(window::ControlType::Button, "btn_login_run", "Login", 150, 25);
+		window::AddControl(window::ControlType::Label, "label_login_result_msg", "Login result: none", 150, 25);
+
 		window::AddControlFunction("btn_msgbox_run", funcs::MsgBox);
 		window::AddControlFunction("btn_log_run", funcs::LogMsg);
-		rogue::window::Setup();
+		window::AddControlFunction("btn_login_run", funcs::Login);
+
+		CreateThread(0, 0, (LPTHREAD_START_ROUTINE)window::Setup, 0, 0, 0);
 	}
 
-	void save( )
+	void save()
 	{
 		bool success = defMgr->SaveFiles("test.json");
 		printf("Saved: %i\n", (int)success);
 	}
 
-	void load( )
+	void load()
 	{
 		bool success = defMgr->LoadFiles("test.json");
 		printf("Loaded: %i\n", (int)success);
 	}
 
-	void create( )
+	void create()
 	{
 		{
 			WeaponDef* wpn = new WeaponDef();
@@ -133,16 +170,16 @@ namespace test
 		printf("Created defs; Total: %i\n", (int)defMgr->GetDefs().size());
 	}
 
-	void clear( )
+	void clear()
 	{
 		defMgr->ClearDefs();
 		printf("Cleared defs; Total: %i\n", (int)defMgr->GetDefs().size());
 	}
 
-	void print( )
+	void print()
 	{
 		printf("Printing defs:\n");
-		for ( auto x : defMgr->GetDefs( ) )
+		for (auto x : defMgr->GetDefs())
 		{
 			printf("EditorId : %s\n", x->editorId.c_str());
 			printf("Type: %i\n", (int)x->type);
@@ -151,30 +188,30 @@ namespace test
 			{
 				ActorDef* actor = static_pointer_cast<ActorDef>(x).get();
 				printf("-->DisplayName: %s\n", actor->displayName.c_str());
-				printf("-->Health: %i\n", (int)actor->health);				
+				printf("-->Health: %i\n", (int)actor->health);
 			}
-			else if ( x->type == DefType::Armor )
+			else if (x->type == DefType::Armor)
 			{
 				ArmorDef* armor = static_pointer_cast<ArmorDef>(x).get();
 				printf("-->DisplayName: %s\n", armor->displayName.c_str());
-				printf("-->ArmorRating: %i\n", (int)armor->armorRating);	
+				printf("-->ArmorRating: %i\n", (int)armor->armorRating);
 			}
-			else if ( x->type == DefType::Consumable )
+			else if (x->type == DefType::Consumable)
 			{
 				ConsumableDef* consumable = static_pointer_cast<ConsumableDef>(x).get();
 				printf("-->DisplayName: %s\n", consumable->displayName.c_str());
-				printf("-->EffectAmount: %i\n", (int)consumable->effectAmount);	
+				printf("-->EffectAmount: %i\n", (int)consumable->effectAmount);
 			}
-			else if ( x->type == DefType::Weapon )
+			else if (x->type == DefType::Weapon)
 			{
 				WeaponDef* weapon = static_pointer_cast<WeaponDef>(x).get();
 				printf("-->DisplayName: %s\n", weapon->displayName.c_str());
-				printf("-->Damage: %i\n", (int)weapon->damage);	
+				printf("-->Damage: %i\n", (int)weapon->damage);
 			}
 		}
 	}
 
-	void count( )
+	void count()
 	{
 		printf("Count: %i\n", (int)defMgr->GetDefs().size());
 	}
@@ -185,19 +222,19 @@ namespace test
 		printf("Deleted ID success: %i\n", (int)success);
 	}
 
-	void run( )
+	void run()
 	{
-		while ( true )
+		while (true)
 		{
 			std::string input = "";
 			printf("command: ");
 			std::cin >> input;
 
-			if ( input == "save" )
+			if (input == "save")
 			{
 				save();
 			}
-			else if ( input == "load" )
+			else if (input == "load")
 			{
 				load();
 			}
