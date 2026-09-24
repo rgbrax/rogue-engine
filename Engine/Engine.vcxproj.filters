@@ -45,6 +45,9 @@
     <ClInclude Include="ThirdParty\Lua\src\lzio.h" />
     <ClInclude Include="Platform\WinAPI.h" />
     <ClInclude Include="Platform\Window.h" />
+    <ClInclude Include="Console\Console.h" />
+    <ClInclude Include="Console\Command.h" />
+    <ClInclude Include="Console\Commands.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Data\DefManager.cpp" />
@@ -81,5 +84,6 @@
     <ClCompile Include="ThirdParty\Lua\src\lvm.c" />
     <ClCompile Include="ThirdParty\Lua\src\lzio.c" />
     <ClCompile Include="Platform\WinAPI.cpp" />
+    <ClCompile Include="Console\Console.cpp" />
   </ItemGroup>
 </Project>

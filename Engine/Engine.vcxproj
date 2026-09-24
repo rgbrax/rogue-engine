@@ -84,6 +84,9 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Console\Command.h" />
+    <ClInclude Include="Console\Commands.h" />
+    <ClInclude Include="Console\Console.h" />
     <ClInclude Include="Core\Vector2.h" />
     <ClInclude Include="Core\Vector3.h" />
     <ClInclude Include="Data\Instance.h" />
@@ -130,6 +133,7 @@
     <ClInclude Include="Platform\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Console\Console.cpp" />
     <ClCompile Include="Data\DefManager.cpp" />
     <ClCompile Include="ThirdParty\Lua\src\lapi.c" />
     <ClCompile Include="ThirdParty\Lua\src\lauxlib.c" />

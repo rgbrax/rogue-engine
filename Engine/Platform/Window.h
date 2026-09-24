@@ -279,4 +279,46 @@ namespace rogue
 			return DefWindowProcA(window, msg, wparam, lparam);
 		}
 	}
+
+	namespace window_sample
+	{
+		//demo of the window namespace
+
+		/*
+		void Login()
+		{
+			std::string user = window::GetControlText("txt_login_username");
+			std::string pass = window::GetControlText("txt_login_password");
+
+			if (user.empty() || pass.empty())
+			{
+				window::SetControlText("label_login_result_msg", "Login result: error");
+				return;
+			}
+
+			if (user == "admin" && pass == "123")
+			{
+				window::SetControlText("label_login_result_msg", "Login result: success");
+				return;
+			}
+			else
+			{
+				window::SetControlText("label_login_result_msg", "Login result: failure");
+				return;
+			}
+		}
+
+		void Test( )
+		{
+			window::m_windowTitle = "REngine";
+			window::m_windowClassName = "REngineClass";
+			window::AddControl(window::ControlType::Label, "label_login_msg", "Login:", 150, 25);
+			window::AddControl(window::ControlType::Edit, "txt_login_username", "user", 150, 25);
+			window::AddControl(window::ControlType::Edit, "txt_login_password", "pass", 150, 25);
+			window::AddControl(window::ControlType::Button, "btn_login_run", "Login", 150, 25);
+			window::AddControl(window::ControlType::Label, "label_login_result_msg", "Login result: none", 150, 25);
+			window::AddControlFunction("btn_login_run", Login);
+		}
+		*/
+	}
 }
