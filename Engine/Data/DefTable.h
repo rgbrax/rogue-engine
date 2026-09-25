@@ -6,7 +6,7 @@
 
 namespace rogue
 {
-	class DefManager
+	class DefTable
 	{
 	public:
 		const std::vector<std::shared_ptr<Def>>& GetDefs();

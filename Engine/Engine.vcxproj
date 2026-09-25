@@ -85,11 +85,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Console\Command.h" />
-    <ClInclude Include="Console\Commands.h" />
     <ClInclude Include="Console\Console.h" />
     <ClInclude Include="Core\Vector2.h" />
     <ClInclude Include="Core\Vector3.h" />
-    <ClInclude Include="Data\Instance.h" />
+    <ClInclude Include="World\Instance.h" />
     <ClInclude Include="Data\ActorDef.h" />
     <ClInclude Include="Data\ConsumableDef.h" />
     <ClInclude Include="Data\ArmorDef.h" />
@@ -98,7 +97,8 @@
     <ClInclude Include="Data\Def.h" />
     <ClInclude Include="Data\ItemDef.h" />
     <ClInclude Include="Data\WeaponDef.h" />
-    <ClInclude Include="Data\DefManager.h" />
+    <ClInclude Include="Data\DefTable.h" />
+    <ClInclude Include="World\InstanceTable.h" />
     <ClInclude Include="ThirdParty\json.hpp" />
     <ClInclude Include="ThirdParty\Lua\src\lapi.h" />
     <ClInclude Include="ThirdParty\Lua\src\lauxlib.h" />
@@ -129,12 +129,13 @@
     <ClInclude Include="ThirdParty\Lua\src\lvm.h" />
     <ClInclude Include="ThirdParty\Lua\src\lzio.h" />
     <ClInclude Include="ThirdParty\rapidcsv.h" />
-    <ClInclude Include="Platform\WinAPI.h" />
+    <ClInclude Include="Platform\FileHandler.h" />
     <ClInclude Include="Platform\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Console\Console.cpp" />
-    <ClCompile Include="Data\DefManager.cpp" />
+    <ClCompile Include="Data\DefTable.cpp" />
+    <ClCompile Include="World\InstanceTable.cpp" />
     <ClCompile Include="ThirdParty\Lua\src\lapi.c" />
     <ClCompile Include="ThirdParty\Lua\src\lauxlib.c" />
     <ClCompile Include="ThirdParty\Lua\src\lbaselib.c" />
@@ -167,7 +168,7 @@
     <ClCompile Include="ThirdParty\Lua\src\lutf8lib.c" />
     <ClCompile Include="ThirdParty\Lua\src\lvm.c" />
     <ClCompile Include="ThirdParty\Lua\src\lzio.c" />
-    <ClCompile Include="Platform\WinAPI.cpp" />
+    <ClCompile Include="Platform\FileHandler.cpp" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>

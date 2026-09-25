@@ -1,26 +1,19 @@
 #pragma once
+#include <Windows.h>
+
 #include <cstdint>
 #include <cstdio>
-#include <filesystem>
-#include <fstream>
 #include <functional>
-#include <memory>
-#include <ostream>
-#include <print>
-#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
-
-#include <Windows.h>
 
 namespace rogue
 {
 	namespace window
 	{
-		//WinAPI manual window and control creation
-		//this is the beginning of a wrapper, it is not pretty right now
-		//Will improve as it continues, but this certainly proves the concept
+		//native ui handler
+		//this is the beginning of a custom lib, will clean this up when it is useful
 
 		enum class ControlType : int
 		{
@@ -119,14 +112,27 @@ namespace rogue
 			return true;
 		}
 
+		static int idCounter = 101;
+		static int currentX = 10;
+		static int currentY = 10;
+
+		void NextColumn( )
+		{
+			int width = 0;
+			for ( Control* control : m_controls )
+			{
+				if (control->sizeX > width)
+					width = control->sizeX;
+			}
+
+			currentX += (width + 5);
+			currentY = 10;
+		}
+
 		bool AddControl(ControlType type, std::string_view name, std::string_view text, int sizeX, int sizeY)
 		{
 			if (type == ControlType::None || type == ControlType::Count || name.empty())
 				return false;
-
-			static int currentX = 10;
-			static int currentY = 10;
-			static int idCounter = 101;
 
 			Control* control = new Control();
 			control->sizeX = sizeX;

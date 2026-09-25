@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Data/ItemDef.h"
 
 namespace rogue
@@ -9,7 +8,8 @@ namespace rogue
 	public:
 		uint32_t damage = 0;
 		float range = 1.0f;
-		WeaponDef( )
+
+		WeaponDef()
 		{
 			type = DefType::Weapon;
 		}

@@ -1,22 +1,22 @@
-#include "DefManager.h"
+#include "DefTable.h"
 #include "ActorDef.h"
 #include "ArmorDef.h"
 #include "ConsumableDef.h"
 #include "WeaponDef.h"
 
-#include "../ThirdParty/json.hpp"
-#include "../ThirdParty/rapidcsv.h"
+#include "ThirdParty/json.hpp"
+#include "ThirdParty/rapidcsv.h"
 
 using namespace nlohmann;
 
 namespace rogue
 {
-	const std::vector<std::shared_ptr<Def>>& DefManager::GetDefs()
+	const std::vector<std::shared_ptr<Def>>& DefTable::GetDefs()
 	{
 		return m_defs;
 	}
 
-	Def* DefManager::GetDefById(DefId id)
+	Def* DefTable::GetDefById(DefId id)
 	{
 		if (!id.IsValid() || !m_defs.size() || id.value > m_defs.size() + 1)
 			return nullptr;
@@ -30,7 +30,7 @@ namespace rogue
 		return nullptr;
 	}
 
-	Def* DefManager::GetDefByEditorId(std::string_view editorId)
+	Def* DefTable::GetDefByEditorId(std::string_view editorId)
 	{
 		if (editorId.empty() || !m_defs.size())
 			return nullptr;
@@ -44,7 +44,7 @@ namespace rogue
 		return nullptr;
 	}
 
-	bool DefManager::SaveFiles(std::string_view filePath)
+	bool DefTable::SaveFiles(std::string_view filePath)
 	{
 		if (m_defs.empty())
 			return true;
@@ -122,7 +122,7 @@ namespace rogue
 		return true;
 	}
 
-	bool DefManager::LoadFiles(std::string_view filePath)
+	bool DefTable::LoadFiles(std::string_view filePath)
 	{
 		if (!std::filesystem::exists(filePath))
 			return false;
@@ -228,6 +228,7 @@ namespace rogue
 				weapon->weight = weight;
 				weapon->value = value;
 				weapon->range = range;
+				weapon->damage = damage;
 
 				AddDef(weapon);
 			}
@@ -239,13 +240,13 @@ namespace rogue
 		}
 	}
 
-	bool DefManager::AddDef(Def* def)
+	bool DefTable::AddDef(Def* def)
 	{
 		if (!def)
 			return false;
 
 		def->id.value = m_defs.size() + 1;
-		if ( GetDefByEditorId( def->editorId ) != nullptr )
+		if (GetDefByEditorId(def->editorId) != nullptr)
 		{
 			printf("[%s] error: editorId already exists, skipping creation\n", __FUNCTION__);
 			return false;
@@ -254,12 +255,13 @@ namespace rogue
 		m_defs.push_back(std::unique_ptr<Def>(def));
 		return true;
 	}
-	bool DefManager::RemoveDefById(DefId id)
+	bool DefTable::RemoveDefById(DefId id)
 	{
 		m_defs.erase(m_defs.begin() + (id.value - 1));
 		return true;
 	}
-	bool DefManager::RemoveDefByEditorId(std::string_view editorId)
+
+	bool DefTable::RemoveDefByEditorId(std::string_view editorId)
 	{
 		size_t del = std::erase_if(m_defs, [editorId](const std::shared_ptr<Def>& def) {
 			return def && def->editorId == editorId;
@@ -267,11 +269,13 @@ namespace rogue
 
 		return del > 0;
 	}
-	bool DefManager::RemoveDefByPtr(std::shared_ptr<Def> obj)
+
+	bool DefTable::RemoveDefByPtr(std::shared_ptr<Def> obj)
 	{
 		return (std::erase(m_defs, obj));
 	}
-	bool DefManager::ClearDefs()
+
+	bool DefTable::ClearDefs()
 	{
 		m_defs.clear();
 		return (m_defs.size() == 0);

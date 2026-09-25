@@ -1,5 +1,5 @@
 #pragma once
-#include "Data/ItemDef.h"
+#include "Data/Def.h"
 
 namespace rogue
 {
@@ -10,5 +10,10 @@ namespace rogue
 		uint32_t health = 0;
 		uint32_t level = 1;
 		bool isUnique = false;
+
+		ActorDef()
+		{
+			type = DefType::Actor;
+		}
 	};
 }

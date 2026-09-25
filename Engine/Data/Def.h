@@ -13,6 +13,6 @@ namespace rogue
 		DefId id;
 		std::string editorId;
 		DefType type = DefType::Invalid;
-		ModuleId sourceModule;
+		ModuleId sourceModule;		
 	};
 }

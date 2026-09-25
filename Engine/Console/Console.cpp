@@ -1,12 +1,9 @@
 #include "Console.h"
-#include "Commands.h"
 
 namespace rogue
 {
 	bool Console::Setup()
 	{
-		RegisterCommand(MsgBox, 2, "MsgBox");
-		RegisterCommand(Print, 1, "Print");
 		return true;
 	}
 

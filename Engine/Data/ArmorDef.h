@@ -7,5 +7,10 @@ namespace rogue
 	{
 	public:
 		uint32_t armorRating = 0;
+
+		ArmorDef( )
+		{
+			type = DefType::Armor;
+		}
 	};
 }
