@@ -61,48 +61,52 @@ namespace rogue
 
 			switch (def->type)
 			{
-			case DefType::Actor: {
-				ActorDef* actor = static_pointer_cast<ActorDef>(def).get();
-				jDef["displayName"] = actor->displayName;
-				jDef["health"] = actor->health;
-				jDef["level"] = actor->level;
-				jDef["isUnique"] = actor->isUnique;
-			}
-			break;
-			case DefType::Armor: {
-				ArmorDef* armor = std::static_pointer_cast<ArmorDef>(def).get();
-				jDef["displayName"] = armor->displayName;
-				jDef["value"] = armor->value;
-				jDef["weight"] = armor->weight;
-				jDef["isUnique"] = armor->isUnique;
-				jDef["armorRating"] = armor->armorRating;
-			}
-			break;
-			case DefType::Weapon: {
-				WeaponDef* weapon = std::static_pointer_cast<WeaponDef>(def).get();
-				jDef["displayName"] = weapon->displayName;
-				jDef["value"] = weapon->value;
-				jDef["weight"] = weapon->weight;
-				jDef["isUnique"] = weapon->isUnique;
-				jDef["damage"] = weapon->damage;
-				jDef["range"] = weapon->range;
-			}
-			break;
-			case DefType::Consumable: {
-				ConsumableDef* consumable = std::static_pointer_cast<ConsumableDef>(def).get();
-				jDef["displayName"] = consumable->displayName;
-				jDef["value"] = consumable->value;
-				jDef["weight"] = consumable->weight;
-				jDef["isUnique"] = consumable->isUnique;
-				jDef["effectAmount"] = consumable->effectAmount;
-				jDef["effectDuration"] = consumable->effectDuration;
-			}
-			break;
-			case DefType::Invalid:
-			case DefType::Count:
-			default:
-				printf("[%s] error: invalid type\n", __FUNCTION__);
-				continue;
+				case DefType::Actor:
+				{
+					ActorDef* actor = static_pointer_cast<ActorDef>(def).get();
+					jDef["displayName"] = actor->displayName;
+					jDef["health"] = actor->health;
+					jDef["level"] = actor->level;
+					jDef["isUnique"] = actor->isUnique;
+				}
+				break;
+				case DefType::Armor:
+				{
+					ArmorDef* armor = std::static_pointer_cast<ArmorDef>(def).get();
+					jDef["displayName"] = armor->displayName;
+					jDef["value"] = armor->value;
+					jDef["weight"] = armor->weight;
+					jDef["isUnique"] = armor->isUnique;
+					jDef["armorRating"] = armor->armorRating;
+				}
+				break;
+				case DefType::Weapon:
+				{
+					WeaponDef* weapon = std::static_pointer_cast<WeaponDef>(def).get();
+					jDef["displayName"] = weapon->displayName;
+					jDef["value"] = weapon->value;
+					jDef["weight"] = weapon->weight;
+					jDef["isUnique"] = weapon->isUnique;
+					jDef["damage"] = weapon->damage;
+					jDef["range"] = weapon->range;
+				}
+				break;
+				case DefType::Consumable:
+				{
+					ConsumableDef* consumable = std::static_pointer_cast<ConsumableDef>(def).get();
+					jDef["displayName"] = consumable->displayName;
+					jDef["value"] = consumable->value;
+					jDef["weight"] = consumable->weight;
+					jDef["isUnique"] = consumable->isUnique;
+					jDef["effectAmount"] = consumable->effectAmount;
+					jDef["effectDuration"] = consumable->effectDuration;
+				}
+				break;
+				case DefType::Invalid:
+				case DefType::Count:
+				default:
+					printf("[%s] error: invalid type\n", __FUNCTION__);
+					continue;
 			}
 
 			jArray.push_back(jDef);
@@ -263,9 +267,10 @@ namespace rogue
 
 	bool DefTable::RemoveDefByEditorId(std::string_view editorId)
 	{
-		size_t del = std::erase_if(m_defs, [editorId](const std::shared_ptr<Def>& def) {
-			return def && def->editorId == editorId;
-		});
+		size_t del = std::erase_if(m_defs, [editorId](const std::shared_ptr<Def>& def)
+			{
+				return def && def->editorId == editorId;
+			});
 
 		return del > 0;
 	}

@@ -11,7 +11,7 @@ namespace rogue
 		uint32_t value = 0;
 		bool isUnique = false;
 
-		ItemDef( )
+		ItemDef()
 		{
 			//non-authorable type, is a base class
 			type = DefType::Invalid;

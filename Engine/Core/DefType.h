@@ -15,5 +15,5 @@ namespace rogue
 		Count
 	};
 
-	const std::string DefTypeValues[6] = {"Invalid", "Actor", "Armor", "Consumable", "Weapon", "Count"};
+	const std::string DefTypeValues[6] = { "Invalid", "Actor", "Armor", "Consumable", "Weapon", "Count" };
 }

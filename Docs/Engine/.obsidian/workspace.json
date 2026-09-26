@@ -11,17 +11,14 @@
             "id": "7d7ac569f967808a",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "DesignChart.canvas",
-                "viewState": {
-                  "x": 777.1428571428571,
-                  "y": -565.1428571428571,
-                  "zoom": -1.0671141958585373
-                }
+                "file": "Notes.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "DesignChart"
+              "icon": "lucide-file",
+              "title": "Notes"
             }
           }
         ]
@@ -193,8 +190,8 @@
   },
   "active": "7d7ac569f967808a",
   "lastOpenFiles": [
-    "Notes.md",
     "DesignChart.canvas",
+    "Notes.md",
     "StyleGuide.md",
     "FileStructure.md"
   ]
