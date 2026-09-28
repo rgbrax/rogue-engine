@@ -1,5 +1,5 @@
 #pragma once
-#include "Data/ItemDef.h"
+#include "Data/Defs/ItemDef.h"
 
 namespace rogue
 {

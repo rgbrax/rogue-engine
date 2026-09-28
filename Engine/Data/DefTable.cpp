@@ -1,11 +1,12 @@
 #include "DefTable.h"
-#include "ActorDef.h"
-#include "ArmorDef.h"
-#include "ConsumableDef.h"
-#include "WeaponDef.h"
-
+#include "Data/Defs/ActorDef.h"
+#include "Data/Defs/ArmorDef.h"
+#include "Data/Defs/ConsumableDef.h"
+#include "Data/Defs/WeaponDef.h"
 #include "ThirdParty/json.hpp"
-#include "ThirdParty/rapidcsv.h"
+
+#include <fstream>
+#include <ostream>
 
 using namespace nlohmann;
 

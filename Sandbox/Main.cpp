@@ -13,6 +13,7 @@ namespace sandbox
 	{
 		console->Setup();
 		console->RegisterCommand(commands::RunWindow, 0, "RunWindow");
+		console->RegisterCommand(commands::RunRenderer, 0, "RunRenderer");
 		console->RegisterCommand(commands::SaveDefs, 1, "SaveDefs");
 		console->RegisterCommand(commands::LoadDefs, 1, "LoadDefs");
 		console->RegisterCommand(commands::CreateDefs, 0, "CreateDefs");

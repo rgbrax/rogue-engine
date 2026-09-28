@@ -4,11 +4,11 @@
     <ClInclude Include="Core\Ids.h" />
     <ClInclude Include="Core\DefType.h" />
     <ClInclude Include="Data\Def.h" />
-    <ClInclude Include="Data\ItemDef.h" />
-    <ClInclude Include="Data\WeaponDef.h" />
-    <ClInclude Include="Data\ArmorDef.h" />
-    <ClInclude Include="Data\ConsumableDef.h" />
-    <ClInclude Include="Data\ActorDef.h" />
+    <ClInclude Include="Data\Defs\ItemDef.h" />
+    <ClInclude Include="Data\Defs\WeaponDef.h" />
+    <ClInclude Include="Data\Defs\ArmorDef.h" />
+    <ClInclude Include="Data\Defs\ConsumableDef.h" />
+    <ClInclude Include="Data\Defs\ActorDef.h" />
     <ClInclude Include="World\Instance.h" />
     <ClInclude Include="Core\Vector2.h" />
     <ClInclude Include="Core\Vector3.h" />
@@ -48,6 +48,16 @@
     <ClInclude Include="Console\Console.h" />
     <ClInclude Include="Console\Command.h" />
     <ClInclude Include="World\InstanceTable.h" />
+    <ClInclude Include="Render\Renderer.h" />
+    <ClInclude Include="World\Component.h" />
+    <ClInclude Include="World\Components\HealthComponent.h" />
+    <ClInclude Include="World\Components\TransformComponent.h" />
+    <ClInclude Include="World\Components\VelocityComponent.h" />
+    <ClInclude Include="World\Components\CombatControllerComponent.h" />
+    <ClInclude Include="World\Components\PlayerControlComponent.h" />
+    <ClInclude Include="World\World.h" />
+    <ClInclude Include="World\InputState.h" />
+    <ClInclude Include="World\Systems\Systems.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Data\DefTable.cpp" />
@@ -86,5 +96,11 @@
     <ClCompile Include="Platform\FileHandler.cpp" />
     <ClCompile Include="Console\Console.cpp" />
     <ClCompile Include="World\InstanceTable.cpp" />
+    <ClCompile Include="Render\Renderer.cpp" />
+    <ClCompile Include="World\World.cpp" />
+    <ClCompile Include="World\Systems\CombatSystem.cpp" />
+    <ClCompile Include="World\Systems\InputSystem.cpp" />
+    <ClCompile Include="World\Systems\MovementSystem.cpp" />
+    <ClCompile Include="World\Systems\PlayerControlSystem.cpp" />
   </ItemGroup>
 </Project>

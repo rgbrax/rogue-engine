@@ -15,9 +15,10 @@ namespace rogue
 	{
 	public:
 		InstanceTable();
+		bool AddInstance(Instance* instance);
 		bool CreateInstanceFromDef(DefId id);
 		bool CreateInstanceFromEditorId(std::string_view editorId);
-		Instance* GetInstanceFromId(InstanceId id);
+		std::shared_ptr<Instance> GetInstanceFromId(InstanceId id);
 		const std::vector<std::shared_ptr<Instance>>& GetInstances();
 
 	private:

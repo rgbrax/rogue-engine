@@ -46,6 +46,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Users\b\Documents\Github\rogue-engine\Engine\ThirdParty\SDL3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\b\Documents\Github\rogue-engine\Engine\ThirdParty\SDL3\include;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\Users\b\Documents\Github\rogue-engine\Engine\ThirdParty\SDL3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\b\Documents\Github\rogue-engine\Engine\ThirdParty\SDL3\include;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
@@ -92,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h" />
+    <ClInclude Include="Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

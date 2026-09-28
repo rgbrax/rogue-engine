@@ -1,12 +1,13 @@
 #pragma once
 #include "Console/Console.h"
-#include "Data/ActorDef.h"
-#include "Data/ArmorDef.h"
-#include "Data/ConsumableDef.h"
+#include "Data/Defs/ActorDef.h"
+#include "Data/Defs/ArmorDef.h"
+#include "Data/Defs/ConsumableDef.h"
 #include "Data/DefTable.h"
-#include "Data/WeaponDef.h"
+#include "Data/Defs/WeaponDef.h"
 #include "Platform/FileHandler.h"
 #include "Platform/Window.h"
+#include "Render/Renderer.h"
 
 #include <Windows.h>
 
@@ -16,6 +17,7 @@ namespace sandbox
 {
 	DefTable* defTable = new DefTable();
 	Console* console = new Console();
+	Renderer* renderer = new Renderer();
 
 	namespace ui
 	{
@@ -46,6 +48,14 @@ namespace sandbox
 		{
 			printf("Running test window\n");
 			ui::Run();
+		}
+
+		void RunRenderer(const std::vector<std::string>& params)
+		{
+			//run / start the Runtime engine; World + Renderer?
+
+			printf("Running test renderer\n");
+			//CreateThread(0, 0, (LPTHREAD_START_ROUTINE)_RunRenderer, 0, 0, 0);
 		}
 
 		void SaveDefs(const std::vector<std::string>& params)
@@ -252,15 +262,15 @@ namespace sandbox
 				params.push_back(wpnDefWeight);
 				params.push_back(wpnDefDamage);
 
-				commands::CreateWeaponDef(params);				
+				commands::CreateWeaponDef(params);
 			}
 
-			void PrintDefs( )
+			void PrintDefs()
 			{
 				commands::PrintDefs(std::vector<std::string>());
 			}
 
-			void LoadDefs( )
+			void LoadDefs()
 			{
 				//txtLoadDefsPath
 				std::vector<std::string> params;
@@ -268,7 +278,7 @@ namespace sandbox
 				commands::LoadDefs(params);
 			}
 
-			void SaveDefs( )
+			void SaveDefs()
 			{
 				//txtSaveDefsPath
 				std::vector<std::string> params;
@@ -276,7 +286,7 @@ namespace sandbox
 				commands::SaveDefs(params);
 			}
 
-			void ClearDefs( )
+			void ClearDefs()
 			{
 				commands::ClearDefs(std::vector<std::string>());
 			}

@@ -1,5 +1,5 @@
 #pragma once
-#include "Data/ItemDef.h"
+#include "Data/Defs/ItemDef.h"
 
 namespace rogue
 {
@@ -8,7 +8,7 @@ namespace rogue
 	public:
 		uint32_t armorRating = 0;
 
-		ArmorDef( )
+		ArmorDef()
 		{
 			type = DefType::Armor;
 		}

@@ -1,0 +1,21 @@
+Summary of my style guide, somewhat in-line with what Microsoft seemingly uses in their systems code. What I have gotten used to.
+##### Style:
+- `PascalCase` types and methods
+- `I` for interfaces
+- `enum class` : when applicable, choose size-appropriate numerical
+	- I.e. less than 255 types? then `enum class Types : uint8_t`
+- `m_camelCase` private members
+- `camelCase` local members
+- `PascalCase` constants
+- `UPPER_SNAKE` macros
+- Allman braces
+	- The superior indentation style
+- Tabs, tabs everywhere
+- Left-aligned pointers
+	- data type gets the asterisk / pointer, not the variable name
+- `#pragma once` headers
+	- No precompiled headers
+- `PascalCase` filenames
+- `lowercase` namespaces
+- `kebab-case` repos
+- The last three are the least important. This is just what I've gotten used to.

@@ -27,7 +27,7 @@ namespace rogue
 			Count
 		};
 
-		const char* ControlList[7] = {"", "STATIC", "EDIT", "BUTTON", "LISTBOX", "COMBOBOX", "SCROLLBAR"};
+		const char* ControlList[7] = { "", "STATIC", "EDIT", "BUTTON", "LISTBOX", "COMBOBOX", "SCROLLBAR" };
 
 		struct Control
 		{
@@ -116,10 +116,10 @@ namespace rogue
 		static int currentX = 10;
 		static int currentY = 10;
 
-		void NextColumn( )
+		void NextColumn()
 		{
 			int width = 0;
-			for ( Control* control : m_controls )
+			for (Control* control : m_controls)
 			{
 				if (control->sizeX > width)
 					width = control->sizeX;

@@ -1,5 +1,5 @@
 #pragma once
-#include "Data/ItemDef.h"
+#include "Data/Defs/ItemDef.h"
 
 namespace rogue
 {
@@ -9,7 +9,7 @@ namespace rogue
 		uint32_t effectAmount = 0;
 		float effectDuration = 0.0f;
 
-		ConsumableDef( )
+		ConsumableDef()
 		{
 			type = DefType::Consumable;
 		}
