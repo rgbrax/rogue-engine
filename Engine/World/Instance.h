@@ -1,10 +1,9 @@
 #pragma once
 #include "Core/Ids.h"
-#include "Core/Vector2.h"
 #include "World/Component.h"
 
-#include <string>
 #include <vector>
+#include <memory>
 
 namespace rogue
 {

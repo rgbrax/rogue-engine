@@ -1,10 +1,4 @@
 #include "InstanceTable.h"
-#include "Data/DefTable.h"
-#include "Data/Defs/ActorDef.h"
-#include "Data/Defs/ArmorDef.h"
-#include "Data/Defs/ConsumableDef.h"
-#include "Data/Defs/ItemDef.h"
-#include "Data/Defs/WeaponDef.h"
 
 namespace rogue
 {
@@ -12,46 +6,27 @@ namespace rogue
 	{
 	}
 
-	bool InstanceTable::AddInstance(Instance* instance)
+	std::shared_ptr<Instance> InstanceTable::Create(DefId id)
 	{
-		if (!instance)
-			return false;
-
-		instance->id = InstanceId(m_instances.size() + 1);
-		m_instances.push_back(std::unique_ptr<Instance>(instance));
-	}
-
-	bool InstanceTable::CreateInstanceFromDef(DefId id)
-	{
-		Instance* instance = new Instance();
+		std::shared_ptr<Instance> instance = std::make_shared<Instance>();
+		instance->id.value = m_nextId++;
 		instance->def = id;
-		return AddInstance(instance);
+		m_instances.push_back(instance);
+		return instance;
 	}
 
-	bool InstanceTable::CreateInstanceFromEditorId(std::string_view editorId)
+	std::shared_ptr<Instance> InstanceTable::Find(InstanceId id) const
 	{
-		/*Def* def = g_defTable.GetDefByEditorId(editorId);
-		if (!def)
-			return false;
-
-		Instance* instance = new Instance();
-		instance->def = def->id;
-		return AddInstance(instance);*/
-		return false;
-	}
-
-	std::shared_ptr<Instance> InstanceTable::GetInstanceFromId(InstanceId id)
-	{
-		for (std::shared_ptr<Instance> x : m_instances)
+		for (auto x : m_instances)
 		{
 			if (x->id == id)
 				return x;
 		}
 
-		return std::shared_ptr<Instance>();
+		return nullptr;
 	}
 
-	const std::vector<std::shared_ptr<Instance>>& InstanceTable::GetInstances()
+	const std::vector<std::shared_ptr<Instance>>& InstanceTable::GetAll()
 	{
 		return m_instances;
 	}

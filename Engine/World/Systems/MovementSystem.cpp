@@ -2,5 +2,8 @@
 
 namespace rogue
 {
+	void UpdateMovement(World& world, float deltaTime)
+	{
 
+	}
 }

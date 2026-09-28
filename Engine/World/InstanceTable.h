@@ -1,27 +1,25 @@
 #pragma once
-#include "Data/DefTable.h"
-#include "Instance.h"
+#include "Core/Ids.h"
+#include "World/Instance.h"
 
 #include <memory>
-#include <string>
-#include <string_view>
 #include <vector>
 
 namespace rogue
 {
-	//tbd: maybe rename Instance to GameObject, Object, Reference/Ref?
+	//World checks the Defs, and adds the Components
+	//InstanceTable is a pure container, will not process any data
 
 	class InstanceTable
 	{
 	public:
 		InstanceTable();
-		bool AddInstance(Instance* instance);
-		bool CreateInstanceFromDef(DefId id);
-		bool CreateInstanceFromEditorId(std::string_view editorId);
-		std::shared_ptr<Instance> GetInstanceFromId(InstanceId id);
-		const std::vector<std::shared_ptr<Instance>>& GetInstances();
+		std::shared_ptr<Instance> Create(DefId id);
+		std::shared_ptr<Instance> Find(InstanceId id) const;
+		const std::vector<std::shared_ptr<Instance>>& GetAll();
 
 	private:
 		std::vector<std::shared_ptr<Instance>> m_instances;
+		uint64_t m_nextId = 1;
 	};
 }

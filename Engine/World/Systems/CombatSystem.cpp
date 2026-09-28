@@ -2,5 +2,8 @@
 
 namespace rogue
 {
-
+	void UpdateCombat(World& world, float deltaTime)
+	{
+		
+	}
 }

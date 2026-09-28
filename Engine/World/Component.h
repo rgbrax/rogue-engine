@@ -21,5 +21,6 @@ namespace rogue
 	{
 	public:
 		virtual ComponentType GetType() = 0;
+		virtual ~Component() = default;
 	};
 }

@@ -90,6 +90,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="World\Systems\SystemRegistry.h" />
     <ClInclude Include="World\InputState.h" />
     <ClInclude Include="World\Systems\Systems.h" />
     <ClInclude Include="World\World.h" />
@@ -152,8 +153,8 @@
     <ClCompile Include="Console\Console.cpp" />
     <ClCompile Include="Data\DefTable.cpp" />
     <ClCompile Include="Render\Renderer.cpp" />
+    <ClCompile Include="World\Systems\SystemRegistry.cpp" />
     <ClCompile Include="World\Systems\CombatSystem.cpp" />
-    <ClCompile Include="World\Systems\InputSystem.cpp" />
     <ClCompile Include="World\Systems\MovementSystem.cpp" />
     <ClCompile Include="World\Systems\PlayerControlSystem.cpp" />
     <ClCompile Include="World\World.cpp" />
