@@ -3,17 +3,17 @@
 
 namespace rogue
 {
-	class PlayerControlComponent : public Component
+	struct PlayerControlComponent : public Component
 	{
-	public:
+		static constexpr ComponentType Type = ComponentType::PlayerControl;
+
+		PlayerControlComponent( )
+			: Component( Type )
+		{ }
+
 		bool left = false;
 		bool right = false;
 		bool up = false;
 		bool down = false;
-
-		ComponentType GetType() override
-		{
-			return ComponentType::PlayerControl;
-		}
 	};
 }

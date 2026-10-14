@@ -7,20 +7,28 @@ namespace rogue
 	enum class ComponentType : uint8_t
 	{
 		None,
-		CharacterAi,
 		CombatController,
-		Faction,
 		Health,
 		PlayerControl,
 		Transform,
 		Velocity,
-		Count
 	};
 
 	class Component
 	{
 	public:
-		virtual ComponentType GetType() = 0;
-		virtual ~Component() = default;
+		explicit Component( ComponentType type )
+			: m_type( type )
+		{ }
+
+		virtual ~Component( ) = default;
+
+		ComponentType GetType( ) const
+		{
+			return m_type;
+		}
+
+	private:
+		ComponentType m_type = ComponentType::None;
 	};
 }

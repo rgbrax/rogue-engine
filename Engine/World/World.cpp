@@ -63,10 +63,39 @@ namespace rogue
 			return InstanceId();
 		}
 
+		std::shared_ptr<Instance> instance = m_instanceTable->Create( def->id );
+		instance->Add<TransformComponent>( ).pos = Vector2( 0.0f, 0.0f );
+
+		if(def->type == DefType::Actor)
+		{
+			instance->Add<CombatControllerComponent>( );
+			instance->Add<HealthComponent>( );
+			instance->Add<VelocityComponent>( );
+
+			HealthComponent* health = instance->Get<HealthComponent>( );
+			health->healthMax = actor
+
+			//first instance should be the player
+			if (instance->id.value == 1)
+			{
+				instance->Add<PlayerControlComponent>( );
+			}
+		}
+		else if( def->type == DefType::Armor)
+		{ 
+		}
+		else if (def->type == DefType::Consumable)
+		{
+		}
+		else if (def->type == DefType::Weapon)
+		{
+		}
+
 		if (def->type == DefType::Invalid || def->type == DefType::Count)
 			return InstanceId();
 
 		std::shared_ptr<Instance> instance = m_instanceTable->Create(def->id);
+		instance->Add( TransformComponent );
 		instance->components.push_back(std::make_shared<TransformComponent>());
 
 		if (def->type == DefType::Actor)
@@ -101,5 +130,15 @@ namespace rogue
 	void World::Update(float deltaTime)
 	{
 		m_systemRegistry->RunAll(*this, deltaTime);
+	}
+
+	std::shared_ptr<InstanceTable> World::GetInstanceTable( ) const
+	{
+		return m_instanceTable;
+	}
+
+	std::shared_ptr<DefTable> World::GetDefTable( ) const
+	{
+		return m_defTable;
 	}
 }

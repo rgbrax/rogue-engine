@@ -8,12 +8,14 @@ namespace rogue
 	class World
 	{
 	public:
-		World();
-		World(std::shared_ptr<DefTable> defTable);
-		~World();
-		bool IsInit();
-		InstanceId Spawn(DefId defId);
-		void Update(float deltaTime);
+		World( );
+		World( std::shared_ptr<DefTable> defTable );
+		~World( );
+		bool IsInit( );
+		InstanceId Spawn( DefId defId );
+		void Update( float deltaTime );
+		std::shared_ptr<InstanceTable> GetInstanceTable( ) const;
+		std::shared_ptr<DefTable> GetDefTable( ) const;
 	private:
 		bool m_initialized = false;
 		std::shared_ptr<InstanceTable> m_instanceTable = nullptr;

@@ -6,14 +6,14 @@ namespace rogue
 {
 	//handles basic combat data for now
 
-	class CombatControllerComponent : public Component
+	struct CombatControllerComponent : public Component
 	{
-	public:
-		InstanceId target = InstanceId(0); //who the Actor is currently attacking; default 0 means nobody
+		static constexpr ComponentType Type = ComponentType::CombatController;
 
-		ComponentType GetType() override
-		{
-			return ComponentType::CombatController;
-		}
+		CombatControllerComponent( )
+			: Component( Type )
+		{ }
+
+		InstanceId target = InstanceId(0); //who the Actor is currently attacking; default 0 means nobody
 	};
 }

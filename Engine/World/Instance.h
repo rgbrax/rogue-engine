@@ -11,18 +11,34 @@ namespace rogue
 	{
 		InstanceId id;
 		DefId def;
-		std::vector<std::shared_ptr<Component>> components{};
-		std::shared_ptr<Component> GetComponentType(ComponentType type)
+		std::vector<std::unique_ptr<Component>> components;
+
+		template <typename T>
+		T* Get( )
 		{
-			for (std::shared_ptr<Component> x : components)
+			for ( std::unique_ptr<Component>& component : components )
 			{
-				if (x->GetType() == type)
-				{
-					return x;
-				}
+				if ( component->GetType( ) == T::Type )
+					return static_cast< T* >( component.get( ) );
 			}
 
 			return nullptr;
+		}
+
+		template <typename T>
+		bool Has( )
+		{
+			return Get<T>( ) != nullptr;
+		}
+
+		template <typename T>
+		T& Add( )
+		{
+			if ( T* existing = Get<T>( ) )
+				return *existing;
+
+			components.push_back( std::make_unique<T>( ) );
+			return static_cast< T& >( *components.back( ) );
 		}
 	};
 }

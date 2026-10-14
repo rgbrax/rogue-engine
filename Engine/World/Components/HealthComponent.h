@@ -3,15 +3,54 @@
 
 namespace rogue
 {
-	class HealthComponent : public Component
+	struct HealthComponent : public Component
 	{
-	public:
-		uint32_t health = 0;
-		uint32_t healthMax = 0;
+		static constexpr ComponentType Type = ComponentType::Health;
 
-		ComponentType GetType() override
+		HealthComponent()
+			: Component( Type )
+		{ }
+
+		int32_t health = 0;
+		int32_t healthMax = 0;
+
+		void Clamp( )
 		{
-			return ComponentType::Health;
+			if ( health < 0 )
+				health = 0;
+			if ( health > healthMax )
+				health = healthMax;
+		}
+
+		void Hurt( int32_t amount )
+		{
+			if ( amount >= health )
+				health = 0;
+			else
+				health -= amount;
+		}
+
+		void Heal( int32_t amount )
+		{
+			if ( health + amount >= healthMax )
+				health = healthMax;
+			else
+				health += amount;
+		}
+
+		bool IsDead( ) const
+		{
+			return health <= 0;
+		}
+
+		bool IsAlive( ) const
+		{
+			return health > 0;
+		}
+
+		bool IsFullHealth( ) const
+		{
+			return health == healthMax;
 		}
 	};
 }

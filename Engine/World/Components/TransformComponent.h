@@ -4,14 +4,14 @@
 
 namespace rogue
 {
-	class TransformComponent : public Component
+	struct TransformComponent : public Component
 	{
-	public:
-		Vector2 pos = Vector2(0.0f, 0.0f);
+		static constexpr ComponentType Type = ComponentType::Transform;
 
-		ComponentType GetType() override
-		{
-			return ComponentType::Transform;
-		}
+		TransformComponent( )
+			: Component( Type )
+		{ }
+
+		Vector2 pos = Vector2(0.0f, 0.0f);
 	};
 }

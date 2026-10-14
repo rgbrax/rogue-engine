@@ -4,16 +4,14 @@
 
 namespace rogue
 {
-	//Velocity defined as speed in position? or something else? TBD
-
-	class VelocityComponent : public Component
+	struct VelocityComponent : public Component
 	{
-	public:
-		Vector2 velocity = Vector2(0.0f, 0.0f);
+		static constexpr ComponentType Type = ComponentType::Velocity;
 
-		ComponentType GetType() override
-		{
-			return ComponentType::Velocity;
-		}
+		VelocityComponent( )
+			: Component( Type )
+		{ }
+
+		Vector2 velocity = Vector2(0.0f, 0.0f);
 	};
 }
